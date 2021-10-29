@@ -37,10 +37,9 @@
 	
 	- each service manage its own database
 	
-	- *eventual consinstency and compensations* instead of distributed transactions
-        
-		-  We accept some inconsisencies but sooner or later the data will be consistent again.
-
+	- *eventual consistency and compensations* instead of distributed transactions
+     -  We accept some inconsistencies but sooner or later the data will be consistent again.
+	
 4. Independently deployed services
   
     - Each service should ideally start without any dependency on other services. Should reduce coupling as much as possible.
@@ -49,9 +48,9 @@
 5. Horizontally scalable services
 	
 	- i replicate only services that needs to scale, not the entire application
-    		
-    	
-		- need to be careful, if a service has end-point communication with  another service, horizontal scaling of the latter could not have the increase in perfomance that we want.
+   
+   
+		 need to be careful, if a service has end-point communication with  another service, horizontal scaling of the latter could not have the increase in perfomance that we want.
 
 
 6. Fault resilient services
@@ -73,8 +72,9 @@
 
   	### *Design for failure*
 
-	
-	### Test (bravely) &rarr; Chaos testing, fault injection
+
+​	
+​	### Test (bravely) &rarr; Chaos testing, fault injection
 
 ## DevOps
 Development Operations
@@ -86,7 +86,7 @@ Development Operations
 ## Conclusions and remarks
 
 - microservice architectural style is an important idea, worth serious consideration for enterprise applications
- 
+
 - Many pros
 	- short lead time
 	- effective scaling
@@ -94,9 +94,10 @@ Development Operations
 - Cons
 	- communication overhead
 	- complexity
-	- "wrong cuts", dependendt services (when changing *a* we also change *b*)
+	- "wrong cuts", dependent services (when changing *a* we also change *b*)
 	- avoiding data duplication with isolated microservices can be massively complicated, need consistency checks at the application level.
 
 - "A poor team will always create poor products"
 
 > "Dont even consider microservices unless you have a system too complex to manage as a monolith"
+

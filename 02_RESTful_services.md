@@ -55,8 +55,7 @@ Originally introduced as an architectural style, developed as an abstract model 
 
 2. Simple doodle service to organize friday night
 
-
-    ![](img/ex2.png)
+![](img/ex2.png)
 
 ## Strengths of REST
 
@@ -79,7 +78,7 @@ Originally introduced as an architectural style, developed as an abstract model 
 ## Weaknesses of REST
 
 - Confusion on best practices
-    
+  
     *should i use PUT or POST?*
 
 - No commonly accepted marshalling mechanism, so it's challenging to encode complex data structures in a URI
