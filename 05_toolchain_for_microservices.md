@@ -18,11 +18,11 @@ Uses tosca format and detects architectural smells.
 
 **IDEA:** Exploit tosca based representation of microservices based applications to **specify only the application components and the required software support**
 
-(EXAMPLE IMAGE)
+![img](img/toscarepr.png)
 
 **IDEA:**	Develop a tool for **automatically completing (and updating) TOSCA application specifications by discovering and including Dockker-based  runtime environments** providing the software support required by each microservice.
 
-(IMAGE toskerise)
+![](img/toskerise.png)
 
 ### Package each microservice into the selected runtime environment
 
@@ -30,14 +30,14 @@ Uses tosca format and detects architectural smells.
 
   - Ingredients:
     		- a process management system inside containers
-    		- a service for component-aware orchestration
-    		- a packager capable of deploying on existing container orchestrators
+        		- a service for component-aware orchestration
+        		- a packager capable of deploying on existing container orchestrators
 
-(CASE STUDIES)
+![](img/casestudies.png)
 
 ## Automatically deriving the architecture of a <u>blackbox</u> application
 
-(MICROMINER)
+![](img/microminer.png)
 
 
 
@@ -58,7 +58,7 @@ Uses tosca format and detects architectural smells.
   - Mining accuracy depends on load tests
   - Timeouts not detected
 
-(CASE STUDIES)
+![](img/minercases.png)
 
 The user can still modify the tosca file produced
 
@@ -81,24 +81,25 @@ The user can still modify the tosca file produced
   Service behaviour described by a FSM
 
   - states associated with (conditions on) service ***requirements*** and ***capabilities***
-  - d
-
+  - normal and  fault-handling transitions
+  - 
+  
   ### Log analysis: example
-
+  
   Why did service instance i pass from state s at time t to state s' at time t'?
-
+  
   Possible reasons:
-
+  
   - a management operation on i was executed
   - i unexpectedly failed on its own
   - i had to handle a failure caused by another service instance that stopped providing one of i's requirements
-
+  
   **Idea**:Algorithm to iteratively generate a causality graph, "travelling back in time"
-
+  
   (EXample chaos testing)
-
+  
   Extensions:
-
+  
   - Deal with non-deterministic services
   - Deal with "log gaps"
   - Combine multiple runs
