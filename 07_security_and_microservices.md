@@ -16,11 +16,11 @@ Microservices:
 
 - security of app: strength of weakest link
 
-  [image]
+  ![weak](img/weaklink.png)
 
 ## Distributed security screening
 
-Monolit: security screening done once, request dispatched to corresponding component
+Monolith: security screening done once, request dispatched to corresponding component
 
 Each microservice has to carry out independent security screening
 
@@ -29,7 +29,7 @@ Each microservice has to carry out independent security screening
 
 Work around: trust the network:
 
-Industry trend: from trust the networl to zero trust networking principles
+Industry trend: from trust the network to zero trust networking principles
 
 Still overall performance must be taken into consideration
 

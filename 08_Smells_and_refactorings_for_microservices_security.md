@@ -44,13 +44,13 @@ Most suggested refactoring: employ OAuth2.0
 
 - resource owner can grant client access to a resource on its behalf
 
-  [IMAGE]
+  ![image-20211114112135691](img/oauth.png)
 
 **Confidentiality &larr; Publicly accessible microservices &rarr; Add API Gateway**
 
 some microservices directly accessible by external clients
 
--> Each such micrservice must check authentication and authorization of each request
+-> Each such microservice must check authentication and authorization of each request
 
 -  Increased exposure of credentials
   - Increased likelihood of confidentiality violations
@@ -64,7 +64,7 @@ API Gateway can enforce authentication, authorization, throttling, message conte
 
 
 
-**Confidentiality, Integrity &larr; Unneccesary privileges to microservices &rarr; Follow the least privilege principle**
+**Confidentiality, Integrity &larr; Unnecessary privileges to microservices &rarr; Follow the least privilege principle**
 
 Most cited refactoring:  follow the least privileged principle
 
@@ -144,11 +144,12 @@ Possibility of "confused deputy problem": microservices trust the gateway based 
 
 Solution: enacting a decentralized authorization approach
 
-- 
+- transmit an access token  together with each request to a microservice
+- access to such microservice is granted to the caller only if a know  and correct token is passed
 
 
 
-[FINAL IMAGE]
+![image-20211114112550982](img/securityrecap.png)
 
 
 
