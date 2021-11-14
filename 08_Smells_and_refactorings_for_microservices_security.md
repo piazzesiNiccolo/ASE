@@ -157,3 +157,4 @@ Possible future steps:
 
 - estimating the technical debt caused by security "smells" in microservice-based architectures
 - automated support to detect security smells and to recommend refactorings
+
