@@ -216,5 +216,50 @@ Compensating transaction:
 
 ## REPORTING
 
-Reporting
+### The Reporting database
 
+Reporting typically needs to group together data from across multiple parts of organization in order to generate useful output, e.g.,
+
+- combine data from general ledger with descriptions of sold items from catalog
+- combine purchase histories and customer profiles to get behaviour of customers
+
+In monoliths, reports often run on read replica of primary database (performance reasons)
+
+[img]
+
+### Reporting on multiple systems:
+
+1. Data retrieval via service calls
+   - reporting system pulls data from source systems via API calls
+   - does not scale well with large volumes of data
+   - exposed APIs may not be designed for reporting (e.g., no way to retrueve all customers)
+     - inefficient, may generate load for target service
+
+[img]
+
+2. Data Pumps
+   - data pushed to the reporting system
+   - data pump maps service db to reporting schema
+   - coupling worth to pay to make reporting easier
+     - data pump should be built & managed by the team managing the service
+     - data pump version controlled together with service
+   - can be piggybacked by backup operations (Netflix "backup data pumps")
+3. [img] Event Data Pumps
+   - microservices can emit events based on the state change of entities that they manage
+     - e.g, Customer service may emit event when a customer is created/updated/deleted
+   - write event subscriber that pumps data into reporting database
+     - no coupling with db of source microservice
+     - just binding to events emitted by service(meant to be exposed)
+     - event-based flow of data to reporting system faster than periodically scheduled data pump
+     - event data pump needs not to be managed by team managing the service
+     - drawback: all required info must be broadcaster as events, may not scale well for large volumes of data
+
+## Concluding remarks
+
+Splitting a monolith can be painstaking but
+
+- Planning small, incremental changes makes it easier to understand impact of each change and how to mitigate costs of (unavoidable) mistakes
+
+Growing a service till it needs to be split is completely OK but
+
+- we should understand when it needs to be split - and split it - before the split becomes too expensives
