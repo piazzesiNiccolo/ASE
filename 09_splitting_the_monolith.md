@@ -37,10 +37,14 @@ Online music retailer MusicCorp monolith covers four contexts:
 Create packages representing these contexts, and then move existing code into them
 
 - Incremental refactoring and testing
+
 - Code left over may identify new bounded context
+
 - Use code to analyze dependencies between packages
   - Packages representing bounded contexts in organization should interact like real organization groups (e.g warehouse package should not depend on Finance package if no such dependency in real organization). Tools like <u>Structure 101</u> graphically show inter package dependencies
-  - [IMG]
+  
+    
+  
 - Do the above incrementally, really
 
 ## Where to start breaking?
@@ -79,7 +83,7 @@ Some tables may be used from different bounded contexts, too
 
 ### Breaking foreign key relationship
 
-[img]
+![image-20211124161111299](img/foreignkeybreak.png)
 
 Catalog code uses Line items table to store info on an album
 
@@ -91,13 +95,13 @@ Finance code accesses line items table, and a foreign key relationship from Ledg
 
 ​										**How to stop Finance code accessing the Line items table?**
 
-[img]
+![image-20211124161201286](img/foreignkeybreak2.png)
 
 Solution: Expose data via API in the catalog package
 
 - overhead introduced (yes)
 - foreign key realtionship lost
-  - constrainst will be managed in the services rather than at the db level
+  - constraint will be managed in the services rather than at the db level
   - may* need to implement consistency check across services, or to trigger actions to clean up related data
     - *choice often not based on technology, e.g. how to handle an order that refers to a catalog ID of an Item that has been removed from the catalog?
 
@@ -113,7 +117,7 @@ Solutions:
 
 ### Shared mutable data
 
-[img]
+![image-20211124161257739](img/sharedmut.png)
 
 - Finance code tracks customers payments and refunds
 - Warehouse code updates orders dispatched and received
@@ -121,9 +125,13 @@ Solutions:
 
 Domain concept - Customer  implicitly modeled in db
 
-Solution: create new customer service and make finance and warehouse invoking its API [img]
+Solution: create new customer service and make finance and warehouse invoking its API 
+
+![image-20211124161410685](img/sharedmut2.png)
 
 ### Shared tables
+
+![image-20211124161439278](img/sharedtables.png)
 
 - Catalog needs to store name and price of record we sell
 - Warehouse needs to keep electronic record of inventory
@@ -137,7 +145,7 @@ Splitting schemas (potentially) increase number of database calls, may break tra
 
 Splitting schemas but keeping application code together makes reverting changes easier
 
-[img]
+![image-20211124162255532](img/splitfirst.png)
 
 ### Transactions
 
@@ -181,7 +189,7 @@ All-or-nothing transactions are useful, multiple tables updated "at once", alway
 - Availability: every request received from a non failing node must result in a response
 - Network partition: network can lose arbitrarily many messages sent from one group to another
 
-[proof]
+![image-20211124162449990](img/cap-proof.png)
 
 ### Netflix approach:
 
@@ -190,7 +198,9 @@ to replicate data in n nodes:
 - write to the ones you can get to, then fix it up afterwards"
 - use quorum: e.g. (n/2 + 1) of the replicas must respond
 
-[img]
+**Apache Cassandra**
+
+
 
 ## The saga pattern
 
@@ -204,8 +214,8 @@ If a local transaction fails then the saga executes a series of compensating tra
 
 Two ways of coordinating sagas:
 
-- Coreography each local transaction publishes ev
-- Orchestration
+- Coreography each local transaction publishes event that triggers nect local transaction(s) in the saga
+- Orchestration, an orchestrator tells participants which local transactions to execute
 
 Compensating transaction:
 
@@ -225,7 +235,7 @@ Reporting typically needs to group together data from across multiple parts of o
 
 In monoliths, reports often run on read replica of primary database (performance reasons)
 
-[img]
+![image-20211124162616136](img/reporting.png)
 
 ### Reporting on multiple systems:
 
@@ -235,7 +245,7 @@ In monoliths, reports often run on read replica of primary database (performance
    - exposed APIs may not be designed for reporting (e.g., no way to retrueve all customers)
      - inefficient, may generate load for target service
 
-[img]
+![image-2021112416270081](img/datapump.png)
 
 2. Data Pumps
    - data pushed to the reporting system
@@ -244,15 +254,19 @@ In monoliths, reports often run on read replica of primary database (performance
      - data pump should be built & managed by the team managing the service
      - data pump version controlled together with service
    - can be piggybacked by backup operations (Netflix "backup data pumps")
-3. [img] Event Data Pumps
-   - microservices can emit events based on the state change of entities that they manage
-     - e.g, Customer service may emit event when a customer is created/updated/deleted
-   - write event subscriber that pumps data into reporting database
-     - no coupling with db of source microservice
-     - just binding to events emitted by service(meant to be exposed)
-     - event-based flow of data to reporting system faster than periodically scheduled data pump
-     - event data pump needs not to be managed by team managing the service
-     - drawback: all required info must be broadcaster as events, may not scale well for large volumes of data
+
+​	![image-20211124162807351](img/eventdatapump.png)
+
+3. Event Data Pumps
+
+- microservices can emit events based on the state change of entities that they manage
+  - e.g, Customer service may emit event when a customer is created/updated/deleted
+- write event subscriber that pumps data into reporting database
+  - no coupling with db of source microservice
+  - just binding to events emitted by service(meant to be exposed)
+  - event-based flow of data to reporting system faster than periodically scheduled data pump
+  - event data pump needs not to be managed by team managing the service
+  - drawback: all required info must be broadcaster as events, may not scale well for large volumes of data
 
 ## Concluding remarks
 
