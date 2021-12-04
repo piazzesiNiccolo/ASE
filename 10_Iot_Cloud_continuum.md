@@ -3,22 +3,27 @@
 - Very many data from IoT to Cloud
 - Need to filter & process data "before" the Cloud
 
-​	[img]
-
 ​	
 
 ## So much data, really?
 
-[img ]
+![image-20211204125147585](img/muchdata.png)
 
 ## Deployment models
 
-1. IoT+Edge [img]
+1. IoT+Edge 
+
+   ![image-20211204125300795](img/iotedge.png)
+
    - Process data in situ at the Edge
    - Low latencies but
    - Limited capabilities
    - Difficulties in sharing data
-2. IoT + Cloud [img]
+
+2. IoT + Cloud 
+   
+   ![image-20211204125344562](img/iotcloud.png)
+   
    - Send data to Cloud for processing
    - Huge computing power but
    - Mandatory connectivity
@@ -29,7 +34,7 @@
 
 ## Fog computing
 
-[img]
+![image-20211204125422316](img/fogcomputing.png)
 
 **Fog computing aims at extending the Cloud towards the IoT to better support latency-sensitive and bandwidth-hungry IoT applications**
 
@@ -66,9 +71,9 @@ Fog infrastructure:
 
 Simple fog application that manages fire alarm, heating and AC systems, interior lighting, and security cameras of a smart building
 
-[img]
+![image-20211204125620538](img/fogapp.png)
 
-[img]
+![image-20211204125715311](img/foginfra.png)
 
 - How to decide _where_ to "best" deploy each component of an application by exploting QOS, location, and context-awareness?
 
@@ -86,10 +91,22 @@ Simple fog application that manages fire alarm, heating and AC systems, interior
 
 Modelling infrastructure and applications
 
-[img]
-
-[img]
+![image-20211204125824464](img/infraprolog.png)
 
 Placing services
 
-[img]
+![image-20211204125911918](img/serviceprolog.png)
+
+![image-20211204125943731](img/serviceprolog2.png)
+
+Checking latency & bandwidth constraints
+
+![image-20211204130039364](img/latencyprolog.png)
+
+![image-20211204130225833](img/placement.png)
+
+Need to deal with dynamic structures (node may crash, bandwidth may suddenly drops, a new node might be added ecc.)
+
+Probabilistic reasoning &rarr; Problog
+
+![image-20211204130258592](img/problog.png)
