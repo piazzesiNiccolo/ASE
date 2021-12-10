@@ -37,28 +37,195 @@
 
 2. What is OpenAPI?
 
+​	**OpenAPI is a open source specification that is used to describe, produce, consume, and visualize RESTful APIs and web services. It is a format and initiative for designing and creating machine readable interface files that are utilized in producing, describing, consumingm and visualizing RESTful APIs and web services. The open API file permits software developers to define their API's essential including:**
+
+* **Present endpoints and each endpoint's operations **
+
+- **The input and output operation parametes**
+- Authentication techniques
+- Things like contact information, terms of use, license, and much more
+
+The main advantage of using a standard definition is that the thid party users can interact with and understand the service with minimal implementation logic, as long as they are familiar with RESTful APIs basics. API specifications are either written in YAML or JSON, formats that are readable, and easy to understand for both machines and humans
+
 **Microservices**
 
 3. Why microservices?
 
+​	The main two reasons for choosing a microservice 		architecture are:
+
+-  Shorten lead time for new features and updates
+- More effective scaling (horizontal scaling)
+
 4. Which are the main characteristics, and the main pros and cons, of microservice-based architectures?
 
+- Service orientation:
+  - Application as sets of services
+  - each application has its own container
+  - lightweight communication protocols (REST), can be synchronous (HTTP) or asynchronous(RABBITMQ, REDIS)
+  - Polyglot services
+- Organize services around business capabilities
+  - Agile methods, cross funcitonal teams, flat set of servies managed by many teams
+  - Different teams with separated roles introduces a delay of communications (context switching)
+- Decentralized data
+  - Each service has its own db, which will be smaller
+  - Eventual consistency and compensations instead of distributed transactions
+    - We accept some inconsistencies, but they ill be consistent some time in the future
+- Independently deployed services
+  - Ideally each service should be started without any dependency, should reduce coupling as much as possible
+- Horizontal scalability
+  - replicate only services that actually needs the scaling, not the entire application
+    - Must be careful when dealing with endpoint based communication with other service (this is a smell, should be addressed with service discovery or a message router)
+- Fault resilient services
+  - Avoid cascading failures
+  - Must have fault tolerant design
+  - Any call can fail for any reason, must handle these as graceful as possible
+  - Design for failure (chaos testing, fault injection)
+- DevOps culture, you build it, you run it
+
+**CONS**:
+
+- Dont even consider microservices unless you have a system that's too complex to manage as a mnoloith
+- Communication overhead
+- Architecture complexity
+- "wrong cuts", maybe you split it wrong and two services are tighlty coupled, very empirical process
+- Very hard to avoid data duplication
+
+- security managment very complex, attack surface broadesn (need effective way to handle authorization and authentication)
+
 5. Which refactoring can be applied to resolve architectural smell X? How can we automate the generation of a model of a
-microservice-based architecture?
+    microservice-based architecture?
 
-6. What is Flask?
+  **REFACTORING**
 
-7. What is a container/image/volume in Docker? Wich are the differences between a virtual machine and a container?
+  | **PRINCIPLE**             | **SMELL**                           | **SOLUTION**                                                 |
+  | ------------------------- | ----------------------------------- | ------------------------------------------------------------ |
+  | Independent deployability | Multiple services in one container  | One service for each container                               |
+  | Horizontal scalability    | endpoint based-service interactions | message broker(14%),message router(31%), service discovery(55%) |
+  | Horizontal scalability    | no API gateway                      | add API gateway                                              |
+  | isolation of failures     | wobbly service interactions         | bulkhead(20%), message broker(16%), timeouts(22%), circuit breaker (42%) |
+  | decentralisation          | shared persistence                  | merge services (9%), data manager (41%), split databse (50%) |
+  | decentralisation          | ESB misuse                          | rightsize ESB -> smart endpoints, dumb pipes                 |
+  | decentralisation          | single layer teams                  | split teams by services                                      |
+
+  **MODEL GENERATION**:
+
+   Use modelling tools for microservice architecture  that gets in input a representation of the model (.tosca, similar to xml) and can generate (partial) concrete model specification (kubernetes images, istrio, a more complete .tosca file ecc.) -> $$\mu Freshner$$
+
+  
+
+6. What is Flask? Flask is a lightweight  WSGI web application micro framework. It is a python module that aims to simplify the development of web-based applicationa that communicate through HTTP. Micro does not mean that these apps are very small, but it means that flask tries to keep its core very simple but modular, with the possibility of adding many plugins and extensions (in fact many exists for different task such as form handling, interaciton with message brokers, testing ecc.). Tries to make as little decisions as possible, not enforcing any particular architecture or code style.
+
+7. What is a container/image/volume in Docker? Which are the differences between a virtual machine and a container?
+
+   Container:
+
+   - A sandboxed process on a host machine that is isolated from all other processes on the machine , leveraging kernel namespaces and cgroups (very bound to posix machines). It is used to host a lightweight OS stack that supports running a SINGLE command. This single command can be any program compatible with the OS stack (usually a web app instance)-
+
+   Image:
+
+   - A docker image provides the custom filesystem that is needed for the isolated process (add libraries, dependencies, files ecc.).  It can be seen as a "programmable" chroot, but a container extends this to not only files but also process resources. The image contains everything needed to run the application,  and other configuration for container, such as environment variables a default command to run, user credentials for a specific service ecc.
+
+   Volume:
+
+   - Data volumes persist data independent of a container's life cycle. When you delete a container, Docker engine does not delete any data volumes.  You  can share volumes across multiple containers. Moreover, you
+     can share data volumes with other computing resources in your system.
 
 8. What is the effect of docker build/run/commit? What is Docker Compose?
+
+   Docker build build a new image based on a specification written in a Dockerfile. Docker run execute a command in a new container created on the basis of a specified image, using the default comand in the image (if exists) when a command is not provided. Commit creates a new image based on a container change to the image that it was built on.
 
 **Software testing**
 
 9. What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”?
 
+   **FIRST**:
+
+   1. Development testing: all testing activities that are carried out by the team developing the software. The tester is usually the programmer developing the software. Can be more formal for critical system, with a specific testing group in the developing team (general trends is agile methods, no separation between testers and devleopers).
+
+     Three stages:
+
+     - Unit testing , where individual functions or methods are tested. Unit testing should focus only on testing the functionality of these methods and functions.
+     - Component testing, where several individual units are integrated to create composite components (modules). In this phase we should test the interface that provides access to these functions.
+     - System testing, where some or all the components are integrated and the system is tested as a whole. Should focus on interactions between components.
+
+   2. Release testing: 
+
+       - Testing release of system intended for use outside of development team
+
+         Primary goal: convince system supplier that is good enough to use
+
+         Black box tests derived from system specification
+
+         It is a form of system testing:
+
+         - Separate not developing team should be responsible
+
+         - Objective of release testing is to check that the system meets its requirements and is good enough for external use (validation testing)
+
+         Requirements-based testing
+
+         ▪ Design test(s) for each requirement
+
+         ▪ Validation testing
+
+         Scenario testing
+
+         ▪ Exploit typical scenarios of use to develop test cases
+
+         ▪ A scenario is a (narrative) realistic story
+
+         Performance testing 
+
+         ▪ Check that system can process its intended workload
+
+         ▪ Operation profiles* employed to test whether performance requirements are being
+         achieve
+
+   3. User testing
+
+      - Users provide input and advice on system testing
+
+          Essential, users real working environment can't be fully replicated but it can impact reliability/performance/usability of system
+
+          Types of user testing:
+
+          - **Alpha testing**
+            - Users work with development team to test early releases of software
+
+          - **Beta testing** 
+            - Release made available to larger group of users, allowing them to experiment and raise problems discovered to the system developers
+
+          - **Acceptance testing**
+
+            - Customers test a system to decide whether or not it is ready to be accepted from the system developers and deployed in the customer environment
+
+
+          Acceptance criteria should in principle be part of system contract (in practice requirments change during development)
+    
+          Outcome of negotiations can be conditional acceptance, e.g deploy even with problems that needs to be fixed
+
+   **SECOND**:
+
+   Test Driven Development is a programming style where software design and implementation are driven by testing. You first write a test for the new functionality that you want, you check that it fails (as it should if the functionality was not intended before), then you write the code that implements the functionality, and rerun the test and verify that it succeed. You repeat this loop until the test passes. This has many benefits including incremental change, simpler solutions and easy to document functionalities (essentially the test should make clear what are the expected inputs and outputs). 
+
+   **PROS**
+
+   - code coverage. Each code segment should have an associated test( not always true, usually a >90% coverage is the ideal targets)
+   - regression testing. When adding new code you can rerun all the tests and check that it does not break anything (no spaghetti code!)
+   - Simplified debugging, it's immediate to see where is the problem
+   - System documentation, the tests themselves are documentation
+
+   **THIRD**:
+
+   Partition testing is a technique used in unit testing to effecitvely test groups of related inputs that should be treated equally:
+
+- Idenitify the groups
+- Choose inputs from each groups
+- Rule of thumb: take inputs at boundaries (edge cases) and in the middle(normal cases) of the group.
+
 10. What is Locust?
 
-
+Locust is a open source load testing  python tool. It provides a python library and a simple web interface to generate a various number of API calls to stress test an application. A locustfile.py must be provided where some varius user api calls are defined. The number of these calls and the rate are dfined with the web interface
 
 **User stories**
 
