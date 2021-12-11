@@ -219,7 +219,7 @@ The main advantage of using a standard definition is that the thid party users c
 
    Partition testing is a technique used in unit testing to effecitvely test groups of related inputs that should be treated equally:
 
-- Idenitify the groups
+- Identify the groups
 - Choose inputs from each groups
 - Rule of thumb: take inputs at boundaries (edge cases) and in the middle(normal cases) of the group.
 
@@ -231,19 +231,107 @@ Locust is a open source load testing  python tool. It provides a python library 
 
 11. What is a user story? Which are the six main attributes for a good user story?
 
+**What is a user story**:
 
+**User stories** are short, simple descriptions of a  feature told from the perspective of the person who desires the new  capability, usually a user or customer of the system. They typically  follow a simple template:
+
+> As a < type of user >, I want < some goal > so that < some reason >.
+
+User stories are often written on index cards or sticky notes, stored in a shoe box, and arranged on walls or tables to facilitate planning  and discussion. As such, they strongly shift the focus from writing  about features to discussing them. In fact, these discussions are more  important than whatever text is written
+
+Six main attributes (INVEST):
+
+1.  **Independent**: User stories should not have interdependencies between them. Otherwise, theyr are difficult to separate by priority, planning and estimation .
+
+2. **Negotiable**:  User stories should be flexible and can be negotiated in discussions between the customer and the development team during development. Remember that  they're short description of features from the user perspective.
+
+3. **Valuable to users**:  user stories must provide description of features that are valuable to end users, and as such should not be focused on technological and programming aspects.
+
+4. **Estimatable**: It is essential that the size of a story can be estimated by developers. The better the estimate of story points, the cleare will be the priority and implementation.
+
+5. **Small**: A good story captures the essence, not the details. Over time the story may acquire, notes details, test ideas and so on but we don't need these to proiritize the story
+
+6. **Testable**: A good story should be testable.
+   “Writing a story card carries an implicit
+   promise: I understand what I want well
+
+   enough that i could write a test for it"
 
 **Business process modelling**
 
 12. What is a parallel/exclusive/inclusive gateway in BPMN?
 
+    ![image-20211211130851771](img/BPMNGATEWAYS.png)
+
 13. What is a workflow net? What is a sound workflow net? What is a live/bounded Petri net?
+
+    **What is a workflow net**:
+
+    Extension of petri nets.
+
+    Petri nets consists of places, transitions and direct arcs connecting places to transitions. Transitions model activities, places and arcs model execution constraints.
+
+    System dynamics represented by tokens, whose distribution over the places determines the state of the modelled system.
+
+    A transition can _fire_ if there is a token  in each of its input places
+
+    If a tranistion _fires_, one token is removed from each input place and one token is added to each output place.
+
+    **A Petri net is a workflow net iff**:
+
+    1. There is a unique source place, with no incoming edge
+    2. There is a unique sink place, with no outgoing edge
+    3. All places and transitions are located in at least one path from the initial place to the final place
+
+    **What is a sound workflow net**:
+
+    > A workflow net is sound iff:
+    >
+    > 1. every net execution starting from the initial state (one token in the source place, no tokens elsewhere) eventually leads to the final state (one token in the sink place, no tokens elsewhere)
+    >
+    > 2. every transition occurs in at least one net execution
+    >
+    >    
+
+    **What is a live/bounded petri net?**:
+
+    > A Petri net (PN, M) is **live** if and only if for every reachable state M' and every transition t, there is a state M'' reachable from M' where t is enabled.
+    >
+    > A Petri net(PN, M) is **bounded** if and only if for each place p there is a $n \in \N$ such that  for each reachable state M'  the number of tokens in p in M' is less than  n
+    >
+    > Theorem: a workflow net $N$ is sound if and only if  (N',{i}) is live and bounded, where N' is N extended with a transition from the sink place _o_  to the source place _i_
 
 14. How can we model BPMN parallel/exclusive/inclusive gateways with workflow nets?
 
+    ![image-20211211132253322](img/modelgateways.png)
+
+    INCLUSIVE GATEWAY:
+
+    ![image-20211211132533902](img/incgate.png)
+
 15. What is Camunda? Which are the two “usage patterns” of Camunda?
 
+**What is Camunda**:
 
+Camunda is a framework supporting BPMN  for workflow and process automation.
+
+It provides a RESTful API which allows to use any language
+
+Workflows are defined via BPMN and can be graphically modeled using Camunda Modeller
+
+**Usage Pattern**:
+
+1. **endpoint-based integration**:
+
+   After defining a BPMN process , Camunda can directly call  services via built-in connectors. It support REST and SOAP
+
+   ![image-20211211133112650](img/endpoint.png)
+
+2. **queue-based integration**
+
+   Unit  of work (tasks) are provided in a Topic Queue, the queue is polled by RESTful workers that can interact with services ( better scaling).
+
+   ![image-20211211133248481](img/queuebased.png)
 
 **Security and microservices**
 
