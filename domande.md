@@ -335,15 +335,150 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
 **Security and microservices**
 
-16. Which are the main challenges in securing microservices? Which are the main “smells” in microservices security?
+16. Which are the main challenges in securing microservices?     Which are the main “smells” in microservices security?
 
+    **Challenges**
+
+
+      The main challenges in securing microservices are embedded in the architecture itself. Since we have many services communicating with remote the number of entry points increases (broader surface attack) and the app is as secure as the weakest link. Other challenges:
+
+      - **Distributed security screening**: each microservice has to carry out independent security screenin:
+        - May need to connect to a remote security token service
+        - repeated, distributed security checks affects **latency and performance**
+
+        Work around: trust-the-network (industring moving to 0 trust policies)
+
+      - **Bootstrapping trust among microservices**: Service to service communicatin must take place on protected channels. Suppose you are using certificates:
+        - each microservice must be provisioned with a certificate (and private key) to authenticate itself to another microservice during interactions
+        - Recipient microservice must know how to validate the certificate associated with calling microservice
+        - Need to bootstrap trust
+        - (need also to revoke and rotate certificates)
+
+          Need automation for large scale deployments
+      - **Tracing requests spanning multiple microservices**
+        A log records an event in a service. A set of logs can be aggregated to produce metrics
+
+        Traces help you track a request from the point where it enters the system to the point where it leaves the system
+
+        **Challenging to correlate requests among microserives**
+      - **Containers complicate credentials/policies handling**
+        Containers are immutable servers that donìt change state after spin up
+
+        But we need to mantain a dynamic list of allowed clients and a dynamic set of access control policies
+          e.g get updated policies from some policy admin endpoint (push vcs pull model)
+        
+        Each service must also mantain its own credentials, which need to be rotated periodically
+          e.g keep credentials in container filsystem and inject them at boot time
+      - **Distribution makes sharing user context harder**. User context has to be passed explicitly from a microservice to another. How can we build trust so that a receiving microserrvice accepts an incoming user context? Popular solution: use Json Web Token
+      - **Decentralised security responsabilities**
+        Diffenrent teams can use different technlogoy stacks, and this can mean that they use different security practices and tools (i wish there was a unique solution) for static and dynamic analysis. 
+
+        Security responsabilites distributed across different teams.
+
+        Usually hybrid approach with centralized security team
+    
+    **Smells**
+
+      
+    | **Property**              | **SMELL**                               | **SOLUTION**                                                       |
+    | ------------------------- | --------------------------------------- | -------------------------------------------------------------------|
+    | Confidentiality           | Insufficient access control             | Use Oauth 2.0                                                      |
+    | Confidentiality           | Publicly accessible microservices       | Add API gateway                                                    |
+    | Confidentiality, Integrity| Unneccesary privileges to microservices | Follow the least privilege principe                                |
+    | Conf, Int, Auth           | Home made crypto code                   | Use established encription techniques                              | 
+    | Conf, Int, Auth           | Non encrypted  data exposure            | Encrypt all sensitive data at rest                                 | 
+    | Conf, Int, Auth           | Hardcoded secrets                       | Encrypt secrets at rest                                            |
+    | Conf, Int, Auth           | Non secured service-to-service comms    | Use mutual TLS                                                     |
+    | Authenticity              | Unauthenticated traffic                 | mutual TLS, openId Connect                                         |
+    | Authenticity              | Multiple user authentication            | Api gateway, OpenId Connect, single sign on                        |
+    | Authenticity              | Centralised authorization               | Decentralise authorization                                         |
+    -------------------------------------------------------------------
 17. What is static/dynamic vulnerability analysis?
+
+  Static vulnerability analysis is a type of white box analysis that has full access to the source code. It uses static analysis techniques to find security vulenrabilities that are caused by the code itself( e.g hardcoded secrets, old libraries with known vulnerabilities, bad crypto practices). 
+  
+  Dynamic vulnerability tesating is  a black box analysis. It tries to break the security control and find vulenrabilities by calling multiple applications API endpoints. Its purpose is to find bad designed authentication and authorization policies by exploiting a running application behaviour. IT casn find vulnerabilities such as no CSRF token, XSS, code injection problem, security misconfigs, unneccessary data exposusre ecc..
+
 
 18. Which are the most frequent API security vulnerabilities?
 
+    [See pdf](owasp-api-security-top-10-cheat-sheet-a4.pdf)
+    
 19. What are authentication and authorization? What are SAML, OIDS and OAuth2.0?
 
+  **Authentication and authorization**
 
+  1. Authentication
+    
+      Authentication is the **act of confirming the truth** of an attribute of a single piece of data or entity (user of an application, for instance).
+
+      In the digital worlds we tend to simplify the confirmation by using **username and password** (the assumption is that password is known only by the indended user, so specifying the right password you're demonstrating you actually are who you pretend to be).
+  2. Authorization
+
+      Authorization is the function of **specifying access rights** to resources related to information security and computer security in general and to access control in particular
+        - To authorize is to define an access policy
+      
+      In the digital world, defining the access rules user by user can be impractical
+
+      Authorization is often implemented with the so called **Role-Based Access Control**( RBAC)
+        - users are pooled in groups based on their organizational role (e.g payroll manager, project group A, ...)
+        - access rights are then asssociated to roles
+      
+      When a user access an application:
+        - authenticates himself / herself
+        - activate one or more roles (depending on the groups of belonging)
+        - access services by leveraging RBAC authorization
+
+
+**What are SAML, OIDS and OAuth2.0?**
+
+  1. SAML (Simple Assertion Markup Language) is a **standard** that **facilitates the exchange of security information**. It is an XML-based framework that enables different organizations ( with different security domains) to securely exchange authentication and authorization information.
+
+      To create a SAML infrastructure:
+        - an Identity Provider (IdP) must be **installed on top of each organization directory** to permit user authentication in the federation
+        - a Service Provider (SP) must be **installed on top of each application** to consume authentication and authorization information obtained from the federation.
+
+  2. OpenId Connect (OIDC) is a **standard** that **facilitates the exchange of security information**. OIDC is a framework that uses REST APIs and JSON format. OIDC enables different organizations (with different security domains) to securely exchange authentication and authorization information.
+
+      To create an OIDC infrastructure:
+        - an openID provider (OP) must be **installed on top of each organization directory** to permit user authentication to the federation (similarly to IdP in SAML)
+        - a Relying Party (RP) must be **installed on top of each application** to consume authentication an authorization information obtained from the federation (similarly to SP in SAML)
+  
+  3. OAuth 2.0 is an IETF standard for authorization. OAuth2 defines a mean to represent the authorization granted to the third party, the access token, and a set of flows and mechanisms to:
+    - obtain the authorization, that is the access token
+    - convey the authorization to a third-party application
+    - use the authorization on a protected resource
+
+      All on top of the HTTP protocol
+
+      **OAuth2.0 Actors**:
+      - Resource Owner (RO): the granting access entity, usually the user and his User Agent
+      - Resource Server (RS): the server hosting the resource to be accessed (e.g. an API)
+      - Client: the application to which the grant is entitled (a web app, a desktop app, a mobile app, a javascript-on-top-of-user-agent app ...)
+      - Authorization Server (AS): register clients, authenticates users, and issues access tokens.
+
+      **Access token**: a sring representing an authorization issued to the lient (for which is usually opaque). <ins>OAuth 2.0 does not mandate the format nor the content of the access token</ins>
+
+      **Refresh token**: credentials used to obtain access tokens when the current access token becomes invalid or expires.
+
+      **Scopes**: set of rights delegated to the client on the Resource Server - expressed as a list of space-delimited, case sensitive strings.
+
+      **Protocol Endpoints**:
+        - Authorization endpoint (Authorization Server)
+        - Token endpoint (Authorization Server)
+        - Redirection Endpoint (Client)\[<ins> SHOULD require the use of TLS by RFC 6749 </ins>\]
+      
+      **OAuth 2.0 Flows**:
+        - Authorization Code Grant
+        It is the main flow to obtain an access token, and mainly targeted to web applications.
+          - client authentication
+          - employ an intermediate authorization phrase represented by an authorization code
+          - The access token is exchanged without the involvment of the Resource Owner User Agent
+        - Implicit Grant. A simplified authorization code flow optimized for clients implemented in a browser.
+          - No client authentication
+          - No intermediary code to obtain the access token
+        - Resource Owner Password Credentials Grant. It is a flow for highly trusted clients:
+          - the resource owner credentials are used directly by the client to obtain an authorization
 
 **Splitting the monolith**
 
