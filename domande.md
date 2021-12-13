@@ -409,7 +409,7 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
   **Authentication and authorization**
 
   1. Authentication
-        
+     
       Authentication is the **act of confirming the truth** of an attribute of a single piece of data or entity (user of an application, for instance).
 
       In the digital worlds we tend to simplify the confirmation by using **username and password** (the assumption is that password is known only by the indended user, so specifying the right password you're demonstrating you actually are who you pretend to be).
@@ -457,13 +457,14 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
     - Resource Server (RS): the server hosting the resource to be accessed (e.g. an API)
     - Client: the application to which the grant is entitled (a web app, a desktop app, a mobile app, a javascript-on-top-of-user-agent app ...)
     - Authorization Server (AS): register clients, authenticates users, and issues access tokens.
-  
-    **Access token**: a sring representing an authorization issued to the lient (for which is usually opaque). <ins>OAuth 2.0 does not mandate the format nor the content of the access token</ins>
-  
-    **Refresh token**: credentials used to obtain access tokens when the current access token becomes invalid or expires.
-  
-    **Scopes**: set of rights delegated to the client on the Resource Server - expressed as a list of space-delimited, case sensitive strings.
-  
+    
+    
+  **Access token**: a sring representing an authorization issued to the lient (for which is usually opaque). <ins>OAuth 2.0 does not mandate the format nor the content of the access token</ins>
+    
+  **Refresh token**: credentials used to obtain access tokens when the current access token becomes invalid or expires.
+    
+  **Scopes**: set of rights delegated to the client on the Resource Server - expressed as a list of space-delimited, case sensitive strings.
+    
     **Protocol Endpoints**:
       - Authorization endpoint (Authorization Server)
       - Token endpoint (Authorization Server)
@@ -471,7 +472,7 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
     
     **OAuth 2.0 Flows**:
       - Authorization Code Grant
-      It is the main flow to obtain an access token, and mainly targeted to web applications.
+        It is the main flow to obtain an access token, and mainly targeted to web applications.
         - client authentication
         - employ an intermediate authorization phrase represented by an authorization code
         - The access token is exchanged without the involvment of the Resource Owner User Agent
@@ -485,9 +486,112 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
 20. When and where to start splitting a monolith codebase? How to split databases?
 
+    **When and where**
+
+    We must start to split a monolith only *when* it becomes a problem. How to define when it becomes a problem is context dependant but there are some usal indicators:
+
+    - Codebase has fast pase of change and functionalities continously added
+    - A lot of code kept together is unrealted
+    - loose coupling impact performance and manteinance, monolith alwasy deployed all otgether
+
+    Where:
+
+    Find the seams: portion of code that can be treated in isolation and worked on without impacting the rest of the codease
+
+    Bounded context, exploit notion of software modules &rarr; create packages representing bounded conext and move existing code (refactor it !) in them
+
+    Which context to move first depends on the application and the motivations for splittin
+
+    typical drviers:
+
+    - pace of change
+    - team structure
+    - security
+    - technology
+    - tangled dependencies
+
+    **How to split db**
+
+    find the seams in the db. Understand which code read and writes db and detect constraints(e.g foreign key relationship used by different parts of code)
+
+    - Breaking foreign key relationship
+
+      Services uses info of other service via db foreign key 
+
+      Solution: expose data via API in the checked service package
+
+      - More overhead but foreign key lost, constraints managed at the service level, need to implement consinstency checks
+
+    - Shared static data
+
+      - Duplicate tables (possible consistency problem)
+      - Treat data as code (config files). Easier to update config files than db tables even with consistency issues
+      - Expose a separate service (possibly overkill)
+
+    - Shared mutable data
+
+      - Solution: move shared data in a new service that can be invoked through API
+
+    - Shared tables
+
+      Solution: split table in two, move used contexts to each service needing it. Store two concepts separatelt
+
+      
+
+    
+
 21. What is the CAP theorem? What is the SAGA pattern?
 
+    **CAP THEOREM**: In presence of network partition, you cannot have both availability and consistency
+
+    - Consistency any read operation beginning after a write operation must return that valure or the result of a later write operation
+
+    - Availability: every request received from a non failing node must result in a response
+    - Network partition: network can lose arbitrarily many messages sent from one group to another
+
+    **SAGA PATTERN**:
+
+    A pattern to implement distributed transactions in a lightweight manner.
+
+    Implement each business transaction spanning multiple services as a saga
+
+    A *saga* is a sequence of local transactions
+
+    Each local transaction updates a database and triggers next local trnasactions in the saga
+
+    If one local transaction fails the saga executes compensating transactions (rollback)
+
+    Two ways to coordinate these:
+
+    - Coreography: each local transaction publishes event that triggers next transactions in the  saga
+    - Orchestration, an orchestrator tells local participants the transaction to execute
+
+    Compensating transactions:
+
+    - Backward model, undo changes
+    - Forward model, retry later (possibly with timeouts and circuit breakers)
+
 22. What is a (event) data pump?
+
+    Data pumps are needed to keep updated the reporting db, which is usually kept as a copy of the actual db. Challenging to update when multiple dbs. When  the db is updated, data is pushed to the reporting systems (possibly in bulks and not every individual transactions)
+
+    Normal data pumps:
+
+    - data  pushed directly to the reporting system
+    - data pump maps service db to the reporting schema
+    - data pump version controlled together with service
+    - coupling worth to makw reporting easier
+    - data pump built & managed by the team managing serviceù
+
+    Event data pumps:
+
+    - Microservices emits events based on the state change of entities managed
+    - write event subscribers listen for these events and pump data in the reporting database
+    - no coupling with service
+    - just binding to events meant to be exposed
+    - event based is usually faster than periodically scheduled data pumps
+    - can be managed independently
+    - drawback: all info broadcasted as event, not very good scaling for large volumes of data
 
 **Cloud-IoT continuum**
 
