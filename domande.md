@@ -459,6 +459,7 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
     - Authorization Server (AS): register clients, authenticates users, and issues access tokens.
     
     
+
   **Access token**: a sring representing an authorization issued to the lient (for which is usually opaque). <ins>OAuth 2.0 does not mandate the format nor the content of the access token</ins>
     
   **Refresh token**: credentials used to obtain access tokens when the current access token becomes invalid or expires.
@@ -596,8 +597,99 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 **Cloud-IoT continuum**
 
 23. What is Fog computing? What are (declarative) application placement and continuous reasoning over the Cloud-IoT
-continuum?
+    continuum?
+
+    ![image-20211214092725795](img/fog.png)
+
+    Declarative placement:
+
+    App deployment becomes a very complex problem (NP Hard) in a Fog context. You have a set of App requirements (Hardware, Software, QoS) and a fog infrastructure (Heterogenenous, Large, DYnamic).
+
+    How to decide the "best" place to deploy an application component?
+
+    How to estimate a "good" placement?
+
+    Especially challenging for mission critical applications.
+
+    A solution is to convert the problem to a *declarative problem*. You use a specific syntax to declare what constraint you want to satisy and you let an automatic solver find all the possible *placements*. We can model requirements as predicates and use Prolog.
+
+    You describe what you want in the solution, NOT how to achieve it.
+
+    A problem with this approach is the fact that fog structures are dynamic. Two main issues:
+
+    - Prolog is a fact based approach. Need to use a probabilistic approach to model the possibility of unexpected changes &rarr; Problog predicates
+
+    - Handling redeployments in the presence of infrastructure changes. Redeploying  the entire system at any change is going to be too complex (NP Hard problem, exp worst time) and a waste of resources since we  dont need to change placements not affected bu the infrastructure changes.
+
+      We solve the last issue with continous reasoning:
+
+      Continuous reasoning is a technique inspired by things like CI/CD and usually used in software enginnering to differentially analyse large-scale system by exploiting compositionality. We mainly focus on latest changes and reuse computed results as much as possible (e.g FB Infer, works on diff and not the entire source code all the time).
+
+      Continuous reasoning for application placement:
+
+      What for?
+
+      - Scale to larger instances of the placement problem
+      - Reduce time needed to make placement decisions at runtime
+      - Possibly reduce the number of management operations (stop, undeploy, deploy, start)
+      - How?  Re-place only services affected by infrastructure and CI/CD changes
 
 24. How can we assess the security level of an application deployment? How can we model trust?
+
+    Enforcing security in a fog context can be quite challenging.  A fog architcture increase the attack surface by exposing a lot more of possible entry points and shares a lot of the threats with cloud computing (enforciing isolation, man in the middle ecc.)
+
+    It is also to exposed to more peculiar threats because fog nodes are physicially accessible (social engineering, access security in place ecc.)
+
+    We can use a declarative approach  for security as well.
+
+    We first define a taxonomy of possible secruity measure that a Fog infrastructure can enforce. This ranges from mitigation measures for software vulnerabilities, access and communication control , sensitivie data control, Physical security ecc.
+
+    Fog infrastructure is managed by *multiple* operators. Indeed a fog deployment span various service providers. To manage and assess security we assume that each node self-describes its capabilities and effect against attacks with a node descriptor that uses the taxonomoy described. This allows us to have  a complete view of the available security capabilities.
+
+    On the other hand we have an app operator that  describes the app topology and its security requirements both at the component and application level leveraging the taxonomy.
+
+    Security requirements can be desscribed with custom security policies in terms of default security policies specified by the model (in this case SecFog). The app operator can also specify complete and partial deployment of application and the trust degrees towards different infrastructure operator.
+
+    This constitute the security requirements of the multi component app. 
+
+    We leverage a reasoning enginge (problog) that takes as input the requirements and capabilities  and outputs possible deployments annotating them  with their security level.
+
+    **Modeling trust**:
+
+    We build a trust network where operators are nodes and directed arc between them are annotated with the associated trust level ( opinions). 
+
+    Default trust model:
+
+    - opinions along paths are combined via multiplication
+    - opinions across paths are combined via addition
+
+    Limititation in the default model:
+
+    1. It is monotonic, all paths toward  aprovider increases trust degree towards it
+
+    2. Unconditionally transitive (if A trusts B and B trusts C &rarr; A trusts C)
+
+       We can use more sophisticated models using semirings
+
+    **Commutative semiring**
+
+    An algebraic data structure  consisting of a 5-tuple:
+
+    $(S, \oplus, \otimes, 0, 1)$
+
+    where S is a set of elements and $$\oplus$$ and $$\otimes$$ are two binary operators defined over $$S$$ such that:
+
+    - $$\oplus$$ is commutative and associatve, with 0 as its neutral element
+    - $$\otimes$$ is associative, distributes over $$\oplus$$ and 1 and 0 are its neutral and absorbing element
+
+    **A different trust model**
+
+    ![image-20211214101225052](img/semiring.png)
+
+    Non monotonic and optimistic model.  A pessimistic model takes the minimum instead.
+
+    **Conditonal transitivity**
+
+    Limit transitivity to a radius. As an example, if we pick a radius of 3 a operator transitivitely trsuts only the next three operator along a path in the trust network.
 
 25. What is secure FaaS orchestration?
