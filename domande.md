@@ -663,9 +663,9 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
     - opinions along paths are combined via multiplication
     - opinions across paths are combined via addition
 
-    Limititation in the default model:
+    Limitation in the default model:
 
-    1. It is monotonic, all paths toward  aprovider increases trust degree towards it
+    1. It is monotonic, all paths toward  a provider increases trust degree towards it
 
     2. Unconditionally transitive (if A trusts B and B trusts C &rarr; A trusts C)
 
@@ -679,7 +679,7 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
     where S is a set of elements and $$\oplus$$ and $$\otimes$$ are two binary operators defined over $$S$$ such that:
 
-    - $$\oplus$$ is commutative and associatve, with 0 as its neutral element
+    - $$\oplus$$ is commutative and associative, with 0 as its neutral element
     - $$\otimes$$ is associative, distributes over $$\oplus$$ and 1 and 0 are its neutral and absorbing element
 
     **A different trust model**
@@ -688,7 +688,7 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
     Non monotonic and optimistic model.  A pessimistic model takes the minimum instead.
 
-    **Conditonal transitivity**
+    **Conditional transitivity**
 
     Limit transitivity to a radius. As an example, if we pick a radius of 3 a operator transitivitely trsuts only the next three operator along a path in the trust network.
 
