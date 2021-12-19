@@ -1,161 +1,288 @@
 # Questions on the syllabus
 
-**RESTful services**
+<br>
 
-1. How can we create/update/access resources in REST? Which are the pros and cons of REST?
+## Contents 
 
-   **In REST a resource is created/updated/accessed ecc. using HTTP methods. Clients invoke methods such as GET, POST, PUT, DELETE and request and responses  are used to trasnfer representaion of resources. Rest is resources centric and services are seen as reources identified by their URI. **
+| #  | Question                                                                                                                                                                          | 
+| -: | --------                                                                                                                                                                          |
+| | **[RESTful Services](#restful-services)**                                                                                                                                            |
+| 1  | [How can we create/update/access resources in REST? Which are the pros and cons of REST?](#1-how-can-we-createupdateaccess-resources-in-rest-which-are-the-pros-and-cons-of-rest) | 
+| 2  | [What is OpenAPI?](#2-what-is-openapi)                                                                                                                                            | 
+| | &nbsp; |
+| | **[Microservices](#microservices)** |
+| 3  | [Why microservices?](#3-why-microservices) | 
+| 4  | [Which are the main characteristics, and the main pros and cons, of microservice-based architectures?](#4-which-are-the-main-characteristics-and-the-main-pros-and-cons-of-microservice-based-architectures) | 
+| 5  | [Which refactoring can be applied to resolve architectural smell X? How can we automate the generation of a model of a microservice-based architecture?](#5-which-refactoring-can-be-applied-to-resolve-architectural-smell-x-how-can-we-automate-the-generation-of-a-model-of-a-microservice-based-architecture) | 
+| 6  | [What is Flask?](#6-what-is-flask) | 
+| 7  | [What is a container/image/volume in Docker? Which are the differences between a virtual machine and a container?](#7-what-is-a-containerimagevolume-in-docker-which-are-the-differences-between-a-virtual-machine-and-a-container) | 
+| 8  | [What is the effect of docker build/run/commit? What is Docker Compose?](#8-what-is-the-effect-of-docker-buildruncommit-what-is-docker-compose) | 
+| | &nbsp; |
+| | **[Software testing](#software-testing)** |
+| 9  | What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”? |
+| 10 | [What is Locust?](#10-what-is-locust) |
+| | &nbsp; |
+| | **[User stories](#user-stories)** |
+| 11 | [What is a user story? Which are the six main attributes for a good user story?](#11-what-is-a-user-story-which-are-the-six-main-attributes-for-a-good-user-story) |
+| | &nbsp; |
+| | **[Business process modelling](#business-process-modelling)** |
+| 12 | [What is a parallel/exclusive/inclusive gateway in BPMN?](#12-what-is-a-parallelexclusiveinclusive-gateway-in-bpmn) |
+| 13 | [What is a workflow net? What is a sound workflow net? What is a live/bounded Petri net?](#13-what-is-a-workflow-net-what-is-a-sound-workflow-net-what-is-a-livebounded-petri-net) |
+| 14 | [How can we model BPMN parallel/exclusive/inclusive gateways with workflow nets?](#14-how-can-we-model-bpmn-parallelexclusiveinclusive-gateways-with-workflow-nets) |
+| 15 | What is Camunda? Which are the two “usage patterns” of Camunda? |
+| | &nbsp; |
+| | **[Security and microservices](#security-and-microservices)** |
+| 16 | Which are the main challenges in securing microservices? Which are the main “smells” in microservices security? |
+| 17 | What is static/dynamic vulnerability analysis? |
+| 18 | Which are the most frequent API security vulnerabilities? |
+| 19 | What are authentication and authorization? What are SAML, OIDS and OAuth2.0? |
+| | &nbsp; |
+| | **[Splitting the monolith](#splitting-the-monolith)** |
+| 20 | When and where to start splitting a monolith codebase? How to split databases? |
+| 21 | [What is the CAP theorem? What is the SAGA pattern?](#21-what-is-the-cap-theorem-what-is-the-saga-pattern) |
+| 22 | [What is a (event) data pump?](#22-what-is-a-event-data-pump) |
+| | &nbsp; |
+| | **[Cloud-IoT Continuum](#cloud-iot-continuum)** |
+| 23 | What is Fog computing? What are (declarative) application placement and continuous reasoning over the Cloud-IoT continuum? |
+| 24 | How can we assess the security level of an application deployment? How can we model trust? |
+| 25 | What is secure FaaS orchestration? |
 
-REST principles:
+<br>
 
-- Resource identification through URIs
-  - Service exposes a set of resources which identify the targets of the interaction with its clients
-  - Resources identified by URIs, which define global addressing space for resource & service discovery
-- Uniform interface
-  - Resources mainpulated using a fixed set of operations:
-    - PUT and POST to create and update state of resource
-    - DELETE to delete a resource
-    - GET to retrieve current state of resource
-- Self-descriptive messages
-  - Requests contain enough context information to process the message
-  - Resources decoupled from their representation so that their content can be accessed in a variety of formats (HTML, XML, JSON, Plain text, PDF, JPEG)
-  - Metadata about the resourcescan be used to control caching and negotiat representation of state
-- Stateful interactions through hyperlinks
-  - Every interaction with a resource is stateless
-  - Server contains no client state, any session state hold on client
-  - Stateful interactions rely on the concept of explicit state transfer 
+## Answers
 
-  **PROS:**
+### RESTful services
 
-   - Simplicity
-     - Low learning curve
-       - Rest uses well known standards such as HTTP and the necessary infrastructure is already pervasive
-     - Minimal tooling necessary to deploy services
-       - Similar to building a dynamic web site
-       - no custom client-side software
-       - Can begin testing using a simple web browser
+#### 1. How can we create/update/access resources in REST? Which are the pros and cons of REST?
+
+In REST a resource is created/updated/accessed ecc. using HTTP methods.  
+Clients invoke methods such as GET, POST, PUT, DELETE and requests and responses are used to trasnfer representaions of resources.  
+Rest is resources centric and services are seen as reources that can be uniquely identified by their URIs.
+
+**PROS:**
+
+ - <ins>Simplicity</ins>
+   - Low learning curve
+     - Rest uses well known standards such as HTTP and the necessary infrastructure is already pervasive
+   - Minimal tooling necessary to build services
+     - Similar to building a dynamic web site
+     - Low effort to build a client for a RESTful service
+       + developers can begin testing using a simple web browser
+       + no need to create a custom client-side software
      - Because of URIs and hyperlinks we can discover web based resources without complusory registration to a repository
-   - Efficiency  
-     - lightweight protocols and message formats
-   - Scalability
-     - stateless RESTful web services can serve a very large amount of clients
-
-​	  **CONS**:
-
-
-
-  - Confusion on best practices( should i use POST OR PUT? What code should i return? What is the correct URI?)
-
-  - No commonly accepted marshalling merchanism, so it's challenging to encored complex data structures in a URI
-  - Not easy to extend restful services to support advanced functionalities in an interoperable manner
-  - Very easy to make decisions on restful services that can cause significan technical risks and development effort(e.g design of the specification of resources and URI addressing scheme)
-
-​					
-
-​		
-
-2. What is OpenAPI?
-
-​	**OpenAPI is a open source specification that is used to describe, produce, consume, and visualize RESTful APIs and web services. It is a format and initiative for designing and creating machine readable interface files that are utilized in producing, describing, consumingm and visualizing RESTful APIs and web services. The open API file permits software developers to define their API's essential including:**
-
-* **Present endpoints and each endpoint's operations **
-
-- **The input and output operation parametes**
-- Authentication techniques
-- Things like contact information, terms of use, license, and much more
-
-The main advantage of using a standard definition is that the thid party users can interact with and understand the service with minimal implementation logic, as long as they are familiar with RESTful APIs basics. API specifications are either written in YAML or JSON, formats that are readable, and easy to understand for both machines and humans
-
-**Microservices**
-
-3. Why microservices?
-
-​	The main two reasons for choosing a microservice 		architecture are:
-
--  Shorten lead time for new features and updates
-- More effective scaling (horizontal scaling)
-
-4. Which are the main characteristics, and the main pros and cons, of microservice-based architectures?
-
-- Service orientation:
-  - Application as sets of services
-  - each application has its own container
-  - lightweight communication protocols (REST), can be synchronous (HTTP) or asynchronous(RABBITMQ, REDIS)
-  - Polyglot services
-- Organize services around business capabilities
-  - Agile methods, cross funcitonal teams, flat set of servies managed by many teams
-  - Different teams with separated roles introduces a delay of communications (context switching)
-- Decentralized data
-  - Each service has its own db, which will be smaller
-  - Eventual consistency and compensations instead of distributed transactions
-    - We accept some inconsistencies, but they ill be consistent some time in the future
-- Independently deployed services
-  - Ideally each service should be started without any dependency, should reduce coupling as much as possible
-- Horizontal scalability
-  - replicate only services that actually needs the scaling, not the entire application
-    - Must be careful when dealing with endpoint based communication with other service (this is a smell, should be addressed with service discovery or a message router)
-- Fault resilient services
-  - Avoid cascading failures
-  - Must have fault tolerant design
-  - Any call can fail for any reason, must handle these as graceful as possible
-  - Design for failure (chaos testing, fault injection)
-- DevOps culture, you build it, you run it
+ - <ins>Efficiency</ins>
+   - Lightweight protocols and message formats (smart nodes and dumb pipes)
+ - <ins>Scalability</ins>
+   - Stateless RESTful web services can serve a very large amount of clients
 
 **CONS**:
 
-- Dont even consider microservices unless you have a system that's too complex to manage as a mnoloith
+  - Confusion on best practices
+    + Should I use POST or PUT? 
+    + Hi-REST (4 verbs) vs. Low-REST (2 verbs)
+    + What code should I return? What is the correct URI?
+  - No commonly accepted marshalling merchanism, so it's challenging to encode complex data structures in a URI
+  - Not easy to extend RESTful services to support advanced functionalities in an interoperable manner
+  - Very easy to make decisions on restful services that can cause significant technical risks and development efforts (e.g design of the specification of resources and their URI addressing scheme)
+  - Doesn't have the complexity of the layers of WS-* stack
+  - Not best suited for enterprise-level services
+
+<br>
+
+#### 2. What is OpenAPI?
+
+OpenAPI is a open source specification that is used to describe, produce, consume, and visualize RESTful APIs and web services. 
+The OpenAPI Initiative aims at creating a standardized and vendor-neutral desscription format of REST APIs. This format can be used for designing and creating machine readable interface files. 
+  
+OpenAPI files allow software developers to define their APIs' essentials, including:
+
+- Endpoints and respective operations and actions
+- Input and output operation parametes
+- Authentication techniques
+- Contact information, terms of use, license, and much more
+
+The main advantage of using a standard definition is that thid party users can interact with and understand the service with minimal implementation logic, as long as they are familiar with RESTful APIs basics. 
+APIs specifications are either written in YAML or JSON, formats that are readable and easy to understand both for machines and humans.
+
+<br>
+<br>
+
+### Microservices
+
+#### 3. Why microservices?
+
+The main two reasons for choosing a microservice architecture are:
+
+- **Shorten lead time for new features and updates**
+  + accelerate rebuild and redeployment
+  + reduce chords across functional silos
+- **More effective scaling (horizontal scaling)**
+  + millions of users
+
+
+<br>
+
+#### 4. Which are the main characteristics, and the main pros and cons, of microservice-based architectures?
+
+1. Service orientation:
+    - Develop applications as sets of services
+      - each service has its own container
+      - lightweight communication protocols (REST), can be synchronous (HTTP) or asynchronous (RABBITMQ, REDIS)
+      - Polyglot services
+2. Organize services around business capabilities
+    - Conway's law: "organizations produce designs which are copies of their own communication structures"
+    - Agile methods, cross functional teams, flat set of services managed by many teams
+    - Different teams with separated roles introduces a delay in communications (context switching)
+3. Decentralized data management
+    - Each service has its own db, which will be smaller
+    - Eventual consistency and compensations instead of distributed transactions
+      - We accept some inconsistencies, but they will be consistent some time in the future
+4. Independently deployed services
+    - Ideally each service should be started without any dependency, should reduce coupling as much as possible
+5. Horizontal scalability
+    - replicate only services that actually needs the scaling, not the entire application
+      - Must be careful when dealing with endpoint based communication with other service (this is a smell, should be addressed with service discovery or a message router)
+6. Fault resilient services
+    - Avoid cascading failures
+    - Must have fault tolerant design
+    - Any call can fail for any reason, must handle these as graceful as possible
+    - Design for failure (chaos testing, fault injection)
+7. DevOps culture
+    - You build it, you run it
+
+**CONS**:
+
+- Don't even consider microservices unless you have a system that's too complex to manage as a monolith
 - Communication overhead
 - Architecture complexity
-- "wrong cuts", maybe you split it wrong and two services are tighlty coupled, very empirical process
+- "wrong cuts": you may split the monolith wrong, cutting two services that are tighlty coupled, very empirical process
 - Very hard to avoid data duplication
+- security managment very complex, attack surface broadens (need effective way to handle authorization and authentication)
 
-- security managment very complex, attack surface broadesn (need effective way to handle authorization and authentication)
+<br>
 
-5. Which refactoring can be applied to resolve architectural smell X? How can we automate the generation of a model of a
-    microservice-based architecture?
+#### 5. Which refactoring can be applied to resolve architectural smell X? How can we automate the generation of a model of a microservice-based architecture?
 
   **REFACTORING**
 
-  | **PRINCIPLE**             | **SMELL**                           | **SOLUTION**                                                 |
-  | ------------------------- | ----------------------------------- | ------------------------------------------------------------ |
-  | Independent deployability | Multiple services in one container  | One service for each container                               |
-  | Horizontal scalability    | endpoint based-service interactions | message broker(14%),message router(31%), service discovery(55%) |
-  | Horizontal scalability    | no API gateway                      | add API gateway                                              |
-  | isolation of failures     | wobbly service interactions         | bulkhead(20%), message broker(16%), timeouts(22%), circuit breaker (42%) |
-  | decentralisation          | shared persistence                  | merge services (9%), data manager (41%), split databse (50%) |
-  | decentralisation          | ESB misuse                          | rightsize ESB -> smart endpoints, dumb pipes                 |
-  | decentralisation          | single layer teams                  | split teams by services                                      |
+  | **PRINCIPLE**                 | **SMELL**                             | **SOLUTION**                                                                            |
+  | ----------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------- |
+  | **Independent deployability** | Multiple services in one container    | One service per container                                                               |
+  | **Horizontal scalability**    | Endpoint-based service interactions   | Service Discovery (55%) <br> Message Router (31%) <br> Message Broker (14%)             |
+  |                               | No API gateway                        | Add API gateway                                                                         |
+  | **Isolation of failures**     | Wobbly service interactions           | Circuit Breaker (42%) <br> Timeouts (22%) <br> Bulkhead (20%) <br> Message Broker (16%) |
+  | **Decentralisation**          | ESB (Enterprise Service Buses) misuse | Rightsize ESB <br>-> Smart endpoints, dumb pipes                                            |
+  |                               | Shared persistence                    | Split databse (50%) <br> Data manager (41%) <br> Merge services (9%)                    |
+  |                               | Single layer teams                    | Split teams by services                                                                 |
 
-  **MODEL GENERATION**:
+  **MODEL GENERATION**
 
-   Use modelling tools for microservice architecture  that gets in input a representation of the model (.tosca, similar to xml) and can generate (partial) concrete model specification (kubernetes images, istrio, a more complete .tosca file ecc.) -> $$\mu Freshner$$
+To automate the generation of a model of a microservice-based architecture we can use the **&mu;Tosca toolchain**.  
+This toolchain allows us to go from incomplete specs for an application to running apps.  
+It comprises the following tools:
 
+![&mu;Tosca](img/mutosca.png)
+
+- **&mu;Miner**:
+it allows to mine the architecture of microservice-based black-box apps, only relying on Kubernetes deployment files and monitoring dynamic interactions among microservices of the app. 
+It works in 3 steps:
+  + Static Mining
+  + Dynamic Mining
+  + Refinement
+- **&mu;Freshner**:
+Starting from an app specification, this tool can be used both for editing the specification itself and 
+for automatically identifying architectural smells and applying refactorings at the architectural level to solve them.
+- **TosKeriser**:
+This tool can start from a partial specification of the model of our application, only comprising application components and required software support.
+From there it can automatically complete the TOSCA application specifications by discovering and including Docker-based runtime environment providing 
+software requirements for every microservice.
+  + It uses **DockerFinder** to search for container images based on multiple attributes in remote Docker registries.
+- **TosKose**:
+This tool allows to automate the deployment on top of existing container orchestrators.
+It employs:
+  + a _process management_ system inside containers
+  + a _service_ for component aware orchestration 
+  + a _packager_ capable of deplyoing on existing container orchestrators
+
+
+
+<br>
+
+#### 6. What is Flask? 
+
+**WSGI** (Web Server Gateway Interface) is a python component created by the Python Web Community to simplify serving HTTP requests.
+The problem of WSGI is its synchronous nature: the application stays idle until it gets a response from the service.  
   
+**Flask** is a lightweight WSGI web application microframework. 
+It is a python module that aims to simplify the development of web-based applications that communicate through HTTP. 
+It belongs to the microframeworks ecosystem; microframeworks are a set of tools designed to build Web apps faster.
+Micro- here means that: 
+- Flask tries to keep its core very simple but modular, with the possibility of adding many plugins and extensions (in fact many exists for different task such as form handling, interaciton with message brokers, testing ecc.). 
+- Flask tries to take as few decisions as possible, not enforcing any particular architecture or code style.
 
-6. What is Flask? Flask is a lightweight  WSGI web application micro framework. It is a python module that aims to simplify the development of web-based applicationa that communicate through HTTP. Micro does not mean that these apps are very small, but it means that flask tries to keep its core very simple but modular, with the possibility of adding many plugins and extensions (in fact many exists for different task such as form handling, interaciton with message brokers, testing ecc.). Tries to make as little decisions as possible, not enforcing any particular architecture or code style.
+<br>
 
-7. What is a container/image/volume in Docker? Which are the differences between a virtual machine and a container?
+#### 7. What is a container/image/volume in Docker? Which are the differences between a virtual machine and a container?
 
-   Container:
+- **Container**  
+A sandboxed process on a host machine that is isolated from all other processes on the machine, leveraging kernel namespaces and cgroups (very bound to posix machines). 
+It is used to host a lightweight OS stack that supports running a single command on startup. 
+This single command can be any program compatible with the OS stack (usually a web app instance).
+When this process completes, the container stops.
+This startup process can spawn others.  
+A container is a running instance of an image. 
+You can have multiple contaniners running from the same image.
+Containers are created from images, inherit their filesystem and use their metadata to determine their startup configuration.
 
-   - A sandboxed process on a host machine that is isolated from all other processes on the machine , leveraging kernel namespaces and cgroups (very bound to posix machines). It is used to host a lightweight OS stack that supports running a SINGLE command. This single command can be any program compatible with the OS stack (usually a web app instance)-
+- **Image**  
+A docker image provides the custom filesystem layers that are needed for the isolated process to run (libraries, dependencies, files ecc.) and some metadata. 
+A filesystem layer is a collection of changes to files.  
+It can be seen as a "programmable" chroot, but a container extends this to not only files but also process resources. 
+The image contains everything needed to run the application, and other configuration for the container, such as environment variables, a default command to run, user credentials for a specific service, etc.
 
-   Image:
+- **Volume**  
+They are the preferred mechanism for persisting data generated by and used by docker containers.
+Data volumes make data persist independently of a container's life cycle. 
+When you delete a container, Docker engine does not delete any data volumes. 
+Also, volumes are often a better choice than persisting data in a container’s writable layer, because a volume does not increase the size of the containers using it
+You can share volumes across multiple containers. 
+Moreover, you can share data volumes with other computing resources in your system.
 
-   - A docker image provides the custom filesystem that is needed for the isolated process (add libraries, dependencies, files ecc.).  It can be seen as a "programmable" chroot, but a container extends this to not only files but also process resources. The image contains everything needed to run the application,  and other configuration for container, such as environment variables a default command to run, user credentials for a specific service ecc.
+- **VMs** vs. **Containers**  
+At a first glance containers look like lightweight VMs.
+Actually, they have similare resource isolation and allocation benefits, but work differently because containers virtualize the OS, while VMs virtualize the hw.
+So containers share resources with the OS and result to be more lightweight and efficients than VMs.
+They also embed dependencies.
 
-   Volume:
+| **Containers** | **Virtual Machines** |
+| -------------- | -------------------- |
+| Containers are an abstraction at the app layer that packages code and dependencies together. | Virtual machines (VMs) are an abstraction of physical hardware turning one server into many servers. |
+| Multiple containers can run on the same machine and share the OS kernel with other containers, each running as isolated processes in user space.  | The hypervisor allows multiple VMs to run on a single machine. |
+| Containers take up less space than VMs, can handle more applications and require fewer VMs and Operating systems. | Each VM includes a full copy of an operating system, the application, necessary binaries and libraries - taking up tens of GBs. VMs can also be slow to boot. |
 
-   - Data volumes persist data independent of a container's life cycle. When you delete a container, Docker engine does not delete any data volumes.  You  can share volumes across multiple containers. Moreover, you
-     can share data volumes with other computing resources in your system.
+<br>
 
-8. What is the effect of docker build/run/commit? What is Docker Compose?
+#### 8. What is the effect of docker build/run/commit? What is Docker Compose?
 
-   Docker build builds	2 a new image based on a specification written in a Dockerfile. Docker run execute a command in a new container created on the basis of a specified image, using the default comand in the image (if exists) when a command is not provided. Commit creates a new image based on a container change to the image that it was built on.
+- ```docker build```  
+builds a new image based on a specification written in a Dockerfile. 
+- ```docker run```  
+executes a command in a new isolated container created on the basis of a specified image, using the default comand in the image (if it exists) when a command is not provided. 
+- ```docker commit```  
+creates a new image based on a container's changes to the original image it was built on.
+- **Docker Compose**  
+Docker Compose is a tool for defining and running multi-container Docker applications.
+With a single command one can create and start all the services from a configuration file.  
+Using Compose is basically a three step process:
+  + Define the app's environment in a _Dockerfile_ so it can be reproduced anywhere
+  + Define the services that make up the app in a _docker-compose.yml_ file so that they can be run in an isolated environment
+  + Running ```docker-compose up``` will start and run the entire app.
 
-**Software testing**
+<br><br>
 
-9. What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”?
+### Software testing
+
+#### 9. What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”?
 
    **FIRST**:
 
@@ -219,7 +346,7 @@ The main advantage of using a standard definition is that the thid party users c
             - Customers test a system to decide whether or not it is ready to be accepted from the system developers and deployed in the customer environment
 
 
-    Acceptance criteria should in principle be part of system contract (in practice requirments change during development)
+          Acceptance criteria should in principle be part of system contract (in practice requirments change during development)
     
           Outcome of negotiations can be conditional acceptance, e.g deploy even with problems that needs to be fixed
 
@@ -242,93 +369,121 @@ The main advantage of using a standard definition is that the thid party users c
 - Choose inputs from each groups
 - Rule of thumb: take inputs at boundaries (edge cases) and in the middle(normal cases) of the group.
 
-10. What is Locust?
+<br>
 
-Locust is a open source load testing  python tool. It provides a python library and a simple web interface to generate a various number of API calls to stress test an application. A locustfile.py must be provided where some varius user api calls are defined. The number of these calls and the rate are dfined with the web interface
+#### 10. What is Locust?
 
-**User stories**
+Locust is a open source load testing python tool. 
+Being a load testing tool, it allows to understand services bottlenecks under stress, helping developers to determine how to deploy the application and if its design is future-proof in case the load increases.  
+It provides a python library and a simple web interface to generate up to a large number of API calls to stress test an application. 
+A _locustfile.py_ must be provided in the project root folder, where various user API calls can be defined. 
+The number of these calls and their rate can be set via the web interface.
 
-11. What is a user story? Which are the six main attributes for a good user story?
+<br><br>
 
-**What is a user story**:
+### User stories
 
-**User stories** are short, simple descriptions of a  feature told from the perspective of the person who desires the new  capability, usually a user or customer of the system. They typically  follow a simple template:
+#### 11. What is a user story? Which are the six main attributes for a good user story?
 
-> As a < type of user >, I want < some goal > so that < some reason >.
+**User stories** are short, simple descriptions of a desired feature told from the perspective of the person who wants them, usually a user or customer of the system.  
+They should contain just enough information for the developers to produce a reasonable estimate of the effort to implement them.  
+They typically follow a simple template:
 
-User stories are often written on index cards or sticky notes, stored in a shoe box, and arranged on walls or tables to facilitate planning  and discussion. As such, they strongly shift the focus from writing  about features to discussing them. In fact, these discussions are more  important than whatever text is written
+>> As a < type of user >,  
+>> I want < some goal >  
+>> so that < some reason >.  
 
-Six main attributes (INVEST):
+User stories are often written on index cards or sticky notes, stored in a shoe box, and arranged on walls or tables to facilitate planning and discussion. 
+As such, they strongly shift the focus from writing  about features to discussing them. 
+In fact, these discussions are more important than whatever text it is written in them.
 
-1.  **Independent**: User stories should not have interdependencies between them. Otherwise, theyr are difficult to separate by priority, planning and estimation .
+**Six main attributes** ( <ins>INVEST</ins> ):
 
-2. **Negotiable**:  User stories should be flexible and can be negotiated in discussions between the customer and the development team during development. Remember that  they're short description of features from the user perspective.
+1.  **Independent**: User stories should not have interdependencies between them. Otherwise, they can be difficult to separate by priority, planning and estimation.
 
-3. **Valuable to users**:  user stories must provide description of features that are valuable to end users, and as such should not be focused on technological and programming aspects.
+2. **Negotiable**: User stories should be flexible and it should be possible to negotiate them in discussions between the customers and the development team during development. Remember that they're short descriptions of features from the user perspective.
 
-4. **Estimatable**: It is essential that the size of a story can be estimated by developers. The better the estimate of story points, the cleare will be the priority and implementation.
+3. **Valuable to users**:  user stories must provide descriptions of features that are valuable to end users, and as such should not be focused on technological and programming aspects.
 
-5. **Small**: A good story captures the essence, not the details. Over time the story may acquire, notes details, test ideas and so on but we don't need these to proiritize the story
+4. **Estimatable**: It is essential that the size of a story can be estimated by developers. The better the estimate of story points, the clearer will be their priority and the scheduling of their implementation.
+
+5. **Small**: A good story captures the essence, not the details. Over time the story may acquire notes, details, test ideas and so on, but we don't need these to proiritize or schedule the story.
 
 6. **Testable**: A good story should be testable.
-   “Writing a story card carries an implicit
-   promise: I understand what I want well
+   “Writing a story card carries an implicit promise: I understand what I want well enough that I could write a test for it"
 
-   enough that i could write a test for it"
+<br><br>
 
-**Business process modelling**
+### Business process modelling
 
-12. What is a parallel/exclusive/inclusive gateway in BPMN?
+#### 12. What is a parallel/exclusive/inclusive gateway in BPMN?
 
-    ![image-20211211130851771](img/BPMNGATEWAYS.png)
+| **Gateway** | **Symbol** | **Description** |
+| :---------: | :--------: | --------------- |
+| Exclusive Gateway | ![exclusive_gateway](img/exclusive_gateway.png) | When splitting, routes the flow to one outgoing branch. When merging, waits for one incoming branch to complete before triggering the outgoing flow. | 
+| Parallel Gateway | ![parallel_gateway](img/parallel_gateway.png) | When splitting, activates all outgoing branches simultaneously. When merging, waits for all incoming branches to complete. | 
+| Inclusive Gateway | ![inclusive_gateway](img/inclusive_gateway.png) | When splitting, activates one or more branches. When merging, waits for all activated incoming branches to copmlete before merging. | 
+| Event-based Gateway | ![event_gateway](img/event_gateway.png) | Followed by catching events or receive tasks and routes the flow to whichever of these happens first. | 
 
-13. What is a workflow net? What is a sound workflow net? What is a live/bounded Petri net?
+<br>
 
-    **What is a workflow net**:
+#### 13. What is a workflow net? What is a sound workflow net? What is a live/bounded Petri net?
 
-    Extension of petri nets.
+- **Workflow Net**:  
 
-    Petri nets consists of places, transitions and direct arcs connecting places to transitions. Transitions model activities, places and arcs model execution constraints.
+  Workflow Nets are extensions of Petri Nets.
+  They are one of the best known techniques for specifying business processes in a formal and abstract way.
+  The idea that brought to Workflow Nets was to enhance Petri Nets with concepts and notations that would ease the represantation of business processes.  
 
-    System dynamics represented by tokens, whose distribution over the places determines the state of the modelled system.
+  Petri Nets consist of places, transitions and direct arcs connecting places to transitions. 
+  Transitions model activities, places and arcs model execution constraints.
+  System dynamics are represented by tokens, whose distribution over the places determines the state of the modelled system.  
 
-    A transition can _fire_ if there is a token  in each of its input places
+  A _state_ M is a distribution of tokens over places.  
+  A transition is _enabled_ if and only if each of its input place contains at least one token.  
+  A transition can _fire_ if it is enabled.  
+  If a tranistion _fires_, one token is removed from each input place and one token is added to each output place.  
+  A state M is _reachable_ from a state M<sub>0</sub> if and only if there is a firing sequence of transitions that go from M<sub>0</sub> to M.
 
-    If a tranistion _fires_, one token is removed from each input place and one token is added to each output place.
+  **A Petri Net is a Workflow Net** iff:
+  1. There is a unique source place, with no incoming edges
+  2. There is a unique sink place, with no outgoing edges
+  3. All places and transitions are located in at least one path from the initial place to the final place
 
-    **A Petri net is a workflow net iff**:
+- **Sound Workflow Net**:  
+  
+  A workflow net is **sound** iff:
 
-    1. There is a unique source place, with no incoming edge
-    2. There is a unique sink place, with no outgoing edge
-    3. All places and transitions are located in at least one path from the initial place to the final place
+  1. every net execution starting from the initial state (one token in the source place, no tokens elsewhere) eventually leads to the final state (one token in the sink place, no tokens elsewhere)
+  2. every transition occurs in at least one net execution
+    
+  Like Petri Nets, Workflow Nets focus on the _control flow_ behaviour of a process.
+  For this reason, data-dependent choices are modelled as "blind" choices:
+    + the analysis may consider more branches than needed, so **lack of soundness** must be interpreted as a warning that prblems may arise at run time.
+    + the analysis of an iteration may not determine that the application will never terminate, so **soundness** cannot be interpreted as a guarantee that the application will always terminate its execution.
 
-    **What is a sound workflow net**:
+- **Live/Bounded Petri Net**:  
 
-    > A workflow net is sound iff:
-    >
-    > 1. every net execution starting from the initial state (one token in the source place, no tokens elsewhere) eventually leads to the final state (one token in the sink place, no tokens elsewhere)
-    >
-    > 2. every transition occurs in at least one net execution
-    >
-    >    
+  A Petri Net (PN, M) is **live** if and only if for every reachable state M' and every transition t, there is a state M'' reachable from M' where t is enabled.  
 
-    **What is a live/bounded petri net?**:
+  A Petri Net (PN, M) is **bounded** if and only if for each place p there is a n &isin; N such that  for each reachable state M' the number of tokens in p in M' is less than n.  
 
-    > A Petri net (PN, M) is **live** if and only if for every reachable state M' and every transition t, there is a state M'' reachable from M' where t is enabled.
-    >
-    > A Petri net(PN, M) is **bounded** if and only if for each place p there is a n in N such that  for each reachable state M'  the number of tokens in p in M' is less than  n
-    >
-    > Theorem: a workflow net $N$ is sound if and only if  (N',{i}) is live and bounded, where N' is N extended with a transition from the sink place _o_  to the source place _i_
+  **Theorem**: a workflow net **N** is sound if and only if  ( **N'**, { i } ) is live and bounded, where **N'** is **N** extended with a transition from the sink place _o_  to the source place _i_
 
-14. How can we model BPMN parallel/exclusive/inclusive gateways with workflow nets?
+<br>
 
-    ![image-20211211132253322](img/modelgateways.png)
+#### 14. How can we model BPMN parallel/exclusive/inclusive gateways with workflow nets?
 
-    INCLUSIVE GATEWAY:
+| **Gateway** | **Symbol** | **Workflow Net** |
+| :---------: | :--------: | --------------- |
+| Exclusive Gateway | ![exclusive_gateway](img/exclusive_gateway.png) | ![exclusive_gateway_wn](img/exclusive_gateway_wn.png) | 
+| Parallel Gateway | ![parallel_gateway](img/parallel_gateway.png) | ![parallel_gateway_wn](img/parallel_gateway_wn.png) | 
+| Inclusive Gateway | ![inclusive_gateway](img/inclusive_gateway.png) | ![inclusive_gateway_wn](img/inclusive_gateway_wn.png) | 
+| Event-based Gateway | ![event_gateway](img/event_gateway.png) | ![event_gateway_wn](img/event_gateway_wn.png) | 
 
-    ![image-20211211132533902](img/incgate.png)
+<br>
 
-15. What is Camunda? Which are the two “usage patterns” of Camunda?
+#### 15. What is Camunda? Which are the two “usage patterns” of Camunda?
 
 **What is Camunda**:
 
@@ -352,9 +507,11 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
    ![image-20211211133248481](img/queuebased.png)
 
-**Security and microservices**
+<br><br>
 
-16. Which are the main challenges in securing microservices?     Which are the main “smells” in microservices security?
+### Security and microservices
+
+#### 16. Which are the main challenges in securing microservices?     Which are the main “smells” in microservices security?
 
     **Challenges**
 
@@ -410,20 +567,25 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 | Conf, Int, Auth           | Non secured service-to-service comms    | Use mutual TLS                                                     |
 | Authenticity              | Unauthenticated traffic                 | mutual TLS, openId Connect                                         |
 | Authenticity              | Multiple user authentication            | Api gateway, OpenId Connect, single sign on                        |
-| Authenticity              | Centralised authorization               | Decentralise authorization                                         |
--------------------------------------------------------------------
-17. What is static/dynamic vulnerability analysis?
+| Authenticity              | Centralised authorization               | Decentralise authorization  |
+
+<br>
+
+#### 17. What is static/dynamic vulnerability analysis?
 
   Static vulnerability analysis is a type of white box analysis that has full access to the source code. It uses static analysis techniques to find security vulenrabilities that are caused by the code itself( e.g hardcoded secrets, old libraries with known vulnerabilities, bad crypto practices). 
 
   Dynamic vulnerability tesating is  a black box analysis. It tries to break the security control and find vulenrabilities by calling multiple applications API endpoints. Its purpose is to find bad designed authentication and authorization policies by exploiting a running application behaviour. IT casn find vulnerabilities such as no CSRF token, XSS, code injection problem, security misconfigs, unneccessary data exposusre ecc..
 
+<br>
 
-18. Which are the most frequent API security vulnerabilities?
+#### 18. Which are the most frequent API security vulnerabilities?
 
-    [See pdf](owasp-api-security-top-10-cheat-sheet-a4.pdf)
+[See pdf](owasp-api-security-top-10-cheat-sheet-a4.pdf)
     
-19. What are authentication and authorization? What are SAML, OIDS and OAuth2.0?
+<br>
+
+#### 19. What are authentication and authorization? What are SAML, OIDS and OAuth2.0?
 
   **Authentication and authorization**
 
@@ -502,27 +664,29 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
       - Resource Owner Password Credentials Grant. It is a flow for highly trusted clients:
         - the resource owner credentials are used directly by the client to obtain an authorization
 
-**Splitting the monolith**
+<br><br>
 
-20. When and where to start splitting a monolith codebase? How to split databases?
+### Splitting the monolith
 
-    **When and where**
+#### 20. When and where to start splitting a monolith codebase? How to split databases?
 
-    We must start to split a monolith only *when* it becomes a problem. How to define when it becomes a problem is context dependant but there are some usal indicators:
+**When and where**
+
+We must start to split a monolith only *when* it becomes a problem. How to define when it becomes a problem is context dependant but there are some usal indicators:
 
     - Codebase has fast pase of change and functionalities continously added
     - A lot of code kept together is unrealted
     - loose coupling impact performance and manteinance, monolith alwasy deployed all otgether
 
-    Where:
+Where:
 
-    Find the seams: portion of code that can be treated in isolation and worked on without impacting the rest of the codease
+Find the seams: portion of code that can be treated in isolation and worked on without impacting the rest of the codease
 
-    Bounded context, exploit notion of software modules &rarr; create packages representing bounded conext and move existing code (refactor it !) in them
+Bounded context, exploit notion of software modules &rarr; create packages representing bounded conext and move existing code (refactor it !) in them
 
-    Which context to move first depends on the application and the motivations for splittin
+Which context to move first depends on the application and the motivations for splittin
 
-    typical drviers:
+typical drviers:
 
     - pace of change
     - team structure
@@ -530,99 +694,96 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
     - technology
     - tangled dependencies
 
-    **How to split db**
+**How to split db**
 
-    find the seams in the db. Understand which code read and writes db and detect constraints(e.g foreign key relationship used by different parts of code)
+find the seams in the db. Understand which code read and writes db and detect constraints(e.g foreign key relationship used by different parts of code)
 
-    - Breaking foreign key relationship
+  - Breaking foreign key relationship
 
-      Services uses info of other service via db foreign key 
+  Services uses info of other service via db foreign key 
 
-      Solution: expose data via API in the checked service package
+  Solution: expose data via API in the checked service package
 
-      - More overhead but foreign key lost, constraints managed at the service level, need to implement consinstency checks
+  - More overhead but foreign key lost, constraints managed at the service level, need to implement consinstency checks
 
-    - Shared static data
+  - Shared static data
 
-      - Duplicate tables (possible consistency problem)
-      - Treat data as code (config files). Easier to update config files than db tables even with consistency issues
-      - Expose a separate service (possibly overkill)
+  - Duplicate tables (possible consistency problem)
+  - Treat data as code (config files). Easier to update config files than db tables even with consistency issues
+  - Expose a separate service (possibly overkill)
 
-    - Shared mutable data
+- Shared mutable data
 
-      - Solution: move shared data in a new service that can be invoked through API
+  - Solution: move shared data in a new service that can be invoked through API
 
-    - Shared tables
+- Shared tables
 
-      Solution: split table in two, move used contexts to each service needing it. Store two concepts separatelt
+  Solution: split table in two, move used contexts to each service needing it. Store two concepts separatelt
 
-      
+<br>
 
-    
+#### 21. What is the CAP theorem? What is the SAGA pattern?
 
-21. What is the CAP theorem? What is the SAGA pattern?
+- **CAP Theorem**: In presence of a network partition, you cannot have both availability and consistency.
+    + **Consistency**: any read operation beginning after a write operation must return that valure or the result of a later write operation
+    + **Availability**: every request received from a non-failing node must result in a response
+    + **Network partition**: network can lose arbitrarily many messages sent from one group to another
 
-    **CAP THEOREM**: In presence of network partition, you cannot have both availability and consistency
+  ![cap_theorem_proof](img/cap_theorem_proof.png)
 
-    - Consistency any read operation beginning after a write operation must return that valure or the result of a later write operation
+- **SAGA Pattern**:
 
-    - Availability: every request received from a non failing node must result in a response
-    - Network partition: network can lose arbitrarily many messages sent from one group to another
+  A pattern to implement distributed transactions in a lightweight manner.  
+  It consists in implementing each business transaction spanning multiple services as a saga.  
+  A **saga** is a sequence of local transactions. 
+  Each local transaction updates a database and triggers next local trnasactions in the saga.
+  If one local transaction fails then the saga executes compensating transactions (rollback).
 
-    **SAGA PATTERN**:
+  Two ways to coordinate sagas:
+    + **Coreography**: each local transaction publishes an event that triggers next transactions in the saga
+    + **Orchestration**: an orchestrator tells participants which local transactions to execute
 
-    A pattern to implement distributed transactions in a lightweight manner.
+  Compensating transactions:
 
-    Implement each business transaction spanning multiple services as a saga
+    + **Backward model**: undo changes made by previously executed local transactions
+    + **Forward model**: retry later (possibly with timeouts and circuit breakers)
 
-    A *saga* is a sequence of local transactions
+<br>
 
-    Each local transaction updates a database and triggers next local trnasactions in the saga
+#### 22. What is a (event) data pump?
 
-    If one local transaction fails the saga executes compensating transactions (rollback)
+Data pumps are needed to keep updated the reporting database, which is usually kept as a separate copy of the main database. 
+They offer a good alternative to retireving data for the reporting database through HTTP calls, reducing the overhead of both HTTP itself and of having APIs that may exist only for reporting purposes.  
+Reporting database can be challenging to update when we have multiple databases. 
+When the database is updated, data is pushed to the reporting systems (possibly in bulks and not after each individual transaction).
 
-    Two ways to coordinate these:
+- **Normal data pumps**  
+  They are implemented with a standalone program that directly accesses the database of the service (the source of the data) and pumps it into a reporting database, mapping the service database to the reporting schema.  
+  Having multiple programs integrating on the same database is a bad practice. 
+  This case, though, is a good exception since downsides of coupling are balanced by making the reporting easier.  
+  The data pump should be built and managed by the team managing the service (and the relative database).
+  It should also be version-controlled together with the service to avoid issues.
 
-    - Coreography: each local transaction publishes event that triggers next transactions in the  saga
-    - Orchestration, an orchestrator tells local participants the transaction to execute
+- **Event data pumps**  
+  When we have microserives that emit events based on the state change of entities they manage, we have the option of writing an event subscriber that pumps data into the reporting database.  
+  In this case we avoid the coupling on the database of the source microservice.
+  This time we just bind to the events emitted by the service, which are designed to be exposed to external consumers.  
+  We can also send data to the reporting database as events occur, allowing data to flow faster to the reporting system, rather than relying on scheduled data pumps.  
+  This kind of data pumps can also be managed independently from the microservice, given their less coupled nature.  
+  If we store which events have already been processed, we can make new insertions more efficient, only sending deltas to the reporting database.  
+  The main drawback is that all the required informations must be broadcast as events and this may not scale well as a regular data pump for larger volumes of data.
 
-    Compensating transactions:
+<br><br>
 
-    - Backward model, undo changes
-    - Forward model, retry later (possibly with timeouts and circuit breakers)
+### Cloud-IoT continuum
 
-22. What is a (event) data pump?
+#### 23. What is Fog computing? What are (declarative) application placement and continuous reasoning over the Cloud-IoT continuum?
 
-    Data pumps are needed to keep updated the reporting db, which is usually kept as a copy of the actual db. Challenging to update when multiple dbs. When  the db is updated, data is pushed to the reporting systems (possibly in bulks and not every individual transactions)
-
-    Normal data pumps:
-
-    - data  pushed directly to the reporting system
-    - data pump maps service db to the reporting schema
-    - data pump version controlled together with service
-    - coupling worth to makw reporting easier
-    - data pump built & managed by the team managing serviceù
-
-    Event data pumps:
-
-    - Microservices emits events based on the state change of entities managed
-    - write event subscribers listen for these events and pump data in the reporting database
-    - no coupling with service
-    - just binding to events meant to be exposed
-    - event based is usually faster than periodically scheduled data pumps
-    - can be managed independently
-    - drawback: all info broadcasted as event, not very good scaling for large volumes of data
-
-**Cloud-IoT continuum**
-
-23. What is Fog computing? What are (declarative) application placement and continuous reasoning over the Cloud-IoT
-    continuum?
-
-    ![image-20211214092725795](img/fog.png)
+![image-20211214092725795](img/fog.png)
 
     Declarative placement:
 
-    App deployment becomes a very complex problem (NP Hard) in a Fog context. You have a set of App requirements (Hardware, Software, QoS) and a fog infrastructure (Heterogenenous, Large, Dynamic).
+    App deployment becomes a very complex problem (NP Hard) in a Fog context. You have a set of App requirements (Hardware, Software, QoS) and a fog infrastructure (Heterogenenous, Large, DYnamic).
 
     How to decide the "best" place to deploy an application component?
 
@@ -653,7 +814,7 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
       - Possibly reduce the number of management operations (stop, undeploy, deploy, start)
       - How?  Re-place only services affected by infrastructure and CI/CD changes
 
-24. How can we assess the security level of an application deployment? How can we model trust?
+#### 24. How can we assess the security level of an application deployment? How can we model trust?
 
     Enforcing security in a fog context can be quite challenging.  A fog architcture increase the attack surface by exposing a lot more of possible entry points and shares a lot of the threats with cloud computing (enforciing isolation, man in the middle ecc.)
 
@@ -711,118 +872,4 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
     Limit transitivity to a radius. As an example, if we pick a radius of 3 a operator transitivitely trsuts only the next three operator along a path in the trust network.
 
-25. What is secure FaaS orchestration?
-
-
-
-First of all we define FaaS. FaaS stands for Functions as a Service and it's the more recent cloud computing model. In this model, a platform is provided to define stateless, event-triggered functions. A user provides the code of the function, the trigger and how to handle the results. There is a total abstraction from the target deployment stack, and the underlying infrastructure is not specified by the end user. This allows a simplified deployment for applications that can use this model with very low execution costs. Particularly suited for IoT data computation 
-
-FAAS
-
-PROS:
-
-- Costs
-- Scalability
-- Productivity
-- Avg latency
-
-CONS:
-
-- Cold starts
-- No persistent state
-- Non concurrency controls
-
-FaaS meets Cloud-IoT Continuum
-
-Key Idea: deplo functions on nodes near the edges 
-
-- Improve QoS of FaaS
-- Event Driven Programming
-- Better resource management
-
-This rises non trivial security problems
-
-Security issues:
-
-- Reduced Trust Computing Base
-- Devices can be easily hacked, stolen, or broken
-- Isolate users to calculate accounting and billing
-- Privacy
-
-FaaS + C-I cont. + Security
-
-Applications for:
-
-- Environmental monitoring
-- Diseases tracking
-- Home automation
-- Vocal assistants
-- Smart agriculture
-
-Three perspectives:
-
-- Defining FaaS orchestrations
-- Executing FaaS  orchestrations in the C-I cont.
-- Securing FaaS orchestrations
-
-**Define FaaS orchestration**
-
-Languages, models, and methodlogies to define FaaS orchestrations
-
-Findings:
-
-- High support for basic programming constructs (sequential, conditonal branches, loops...)
-- Direct triggers vs publish/subscribe invocation
-- Recursive functions supported (but not particularly liked)
-- Low support for type checking functions
-
-**Executing FaaS orchestrations  in the C-I cont.**
-
-Platforms, techniques and methodologies to execute FaaS orchestrations in the C-I Cont.
-
-Findings:
-
-- High support for latency and resource management
-- Cost-awareness has good consideration
-- Data- and bandiwth-awareness considered by few works
-
-**Securing FaaS orchestrations**
-
-Techniques and methodologies to secure FaaS orchestrations both statically and at runtime
-
-Findings:
-
-- Data confidentiality and function integrity are the main assets protected
-- The main threat is given by external attacks, but also cloud providers and developer mistakes are highly considered 
-- The main protection techniques are hardware isolation and information flow security
-
-**Research challenges**
-
-P1 ^ P2 (Definfing FaaS orchestrations ^ Executing FaaS orchestrations in the C-I Cont )
-
-- Orchestration aware execution:
-
-  Exploit orchestration to place and execute functions (instead of considering single functions)
-
-- Definition and Execution of context-aware and Qos-aware orchestration
-
-  Add context  and QoS requirements to functions and orchestrations to support placement and execution 
-
-P1^P3 (Defining FaaS orchestrations ^ Secure Faas Orchestrations)
-
-- Definition of security requirements:
-
-  Add to function orchestrations security requirements on functions (e.g specific nodes execution)., orchestrations(e.g policies defined on set of functions), and data (e.g defining and exploiting security levels).
-
-- Static analysis of FaaS orchestrations:
-
-  Analyse statically defined FaaS orchestrations using the afromentioned requirements to support placement and execution
-
-P2^P3 (Executing FaaS orchestrations  in the C-I cont. ^ Securing FaaS orchestrations)
-
-- Secure executions in the C-I Cont.
-
-Security is measured and enforced with a similar approach to secofog (declarative approach based on a trust network).
-
-​	![image-20211217172324040](img/chainGath.png)
-
+#### 25. What is secure FaaS orchestration?
