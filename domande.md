@@ -19,7 +19,7 @@
 | 8  | [What is the effect of docker build/run/commit? What is Docker Compose?](#8-what-is-the-effect-of-docker-buildruncommit-what-is-docker-compose) | 
 | | &nbsp; |
 | | **[Software testing](#software-testing)** |
-| 9  | What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”? |
+| 9  | [What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”?](#9-what-is-developmentreleaseuser-testing-what-is-tdd-what-is-partition-testing-what-are-software-inspections) |
 | 10 | [What is Locust?](#10-what-is-locust) |
 | | &nbsp; |
 | | **[User stories](#user-stories)** |
@@ -29,12 +29,12 @@
 | 12 | [What is a parallel/exclusive/inclusive gateway in BPMN?](#12-what-is-a-parallelexclusiveinclusive-gateway-in-bpmn) |
 | 13 | [What is a workflow net? What is a sound workflow net? What is a live/bounded Petri net?](#13-what-is-a-workflow-net-what-is-a-sound-workflow-net-what-is-a-livebounded-petri-net) |
 | 14 | [How can we model BPMN parallel/exclusive/inclusive gateways with workflow nets?](#14-how-can-we-model-bpmn-parallelexclusiveinclusive-gateways-with-workflow-nets) |
-| 15 | What is Camunda? Which are the two “usage patterns” of Camunda? |
+| 15 | [What is Camunda? Which are the two “usage patterns” of Camunda?](#15-what-is-camunda-which-are-the-two-usage-patterns-of-camunda) |
 | | &nbsp; |
 | | **[Security and microservices](#security-and-microservices)** |
-| 16 | Which are the main challenges in securing microservices? Which are the main “smells” in microservices security? |
-| 17 | What is static/dynamic vulnerability analysis? |
-| 18 | Which are the most frequent API security vulnerabilities? |
+| 16 | [Which are the main challenges in securing microservices? Which are the main “smells” in microservices security?](#16-which-are-the-main-challenges-in-securing-microservices-----which-are-the-main-smells-in-microservices-security) |
+| 17 | [What is static/dynamic vulnerability analysis?](#17-what-is-staticdynamic-vulnerability-analysis) |
+| 18 | [Which are the most frequent API security vulnerabilities?](#18-which-are-the-most-frequent-api-security-vulnerabilities) |
 | 19 | What are authentication and authorization? What are SAML, OIDS and OAuth2.0? |
 | | &nbsp; |
 | | **[Splitting the monolith](#splitting-the-monolith)** |
@@ -49,11 +49,9 @@
 
 <br>
 
-## Answers
+## RESTful services
 
-### RESTful services
-
-#### 1. How can we create/update/access resources in REST? Which are the pros and cons of REST?
+### 1. How can we create/update/access resources in REST? Which are the pros and cons of REST?
 
 In REST a resource is created/updated/accessed ecc. using HTTP methods.  
 Clients invoke methods such as GET, POST, PUT, DELETE and requests and responses are used to trasnfer representaions of resources.  
@@ -89,7 +87,7 @@ Rest is resources centric and services are seen as reources that can be uniquely
 
 <br>
 
-#### 2. What is OpenAPI?
+### 2. What is OpenAPI?
 
 OpenAPI is a open source specification that is used to describe, produce, consume, and visualize RESTful APIs and web services. 
 The OpenAPI Initiative aims at creating a standardized and vendor-neutral desscription format of REST APIs. This format can be used for designing and creating machine readable interface files. 
@@ -107,9 +105,11 @@ APIs specifications are either written in YAML or JSON, formats that are readabl
 <br>
 <br>
 
-### Microservices
+## Microservices
 
-#### 3. Why microservices?
+<br>
+
+### 3. Why microservices?
 
 The main two reasons for choosing a microservice architecture are:
 
@@ -122,7 +122,7 @@ The main two reasons for choosing a microservice architecture are:
 
 <br>
 
-#### 4. Which are the main characteristics, and the main pros and cons, of microservice-based architectures?
+### 4. Which are the main characteristics, and the main pros and cons, of microservice-based architectures?
 
 1. Service orientation:
     - Develop applications as sets of services
@@ -161,11 +161,11 @@ The main two reasons for choosing a microservice architecture are:
 
 <br>
 
-#### 5. Which refactoring can be applied to resolve architectural smell X? How can we automate the generation of a model of a microservice-based architecture?
+### 5. Which refactoring can be applied to resolve architectural smell X? How can we automate the generation of a model of a microservice-based architecture?
 
-  **REFACTORING**
+#### Rrefactoring
 
-  | **PRINCIPLE**                 | **SMELL**                             | **SOLUTION**                                                                            |
+  | **Principle**                 | **Smell**                             | **Solution**                                                                            |
   | ----------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------- |
   | **Independent deployability** | Multiple services in one container    | One service per container                                                               |
   | **Horizontal scalability**    | Endpoint-based service interactions   | Service Discovery (55%) <br> Message Router (31%) <br> Message Broker (14%)             |
@@ -208,7 +208,7 @@ It employs:
 
 <br>
 
-#### 6. What is Flask? 
+### 6. What is Flask? 
 
 **WSGI** (Web Server Gateway Interface) is a python component created by the Python Web Community to simplify serving HTTP requests.
 The problem of WSGI is its synchronous nature: the application stays idle until it gets a response from the service.  
@@ -222,7 +222,7 @@ Micro- here means that:
 
 <br>
 
-#### 7. What is a container/image/volume in Docker? Which are the differences between a virtual machine and a container?
+### 7. What is a container/image/volume in Docker? Which are the differences between a virtual machine and a container?
 
 - **Container**  
 A sandboxed process on a host machine that is isolated from all other processes on the machine, leveraging kernel namespaces and cgroups (very bound to posix machines). 
@@ -262,7 +262,7 @@ They also embed dependencies.
 
 <br>
 
-#### 8. What is the effect of docker build/run/commit? What is Docker Compose?
+### 8. What is the effect of docker build/run/commit? What is Docker Compose?
 
 - ```docker build```  
 builds a new image based on a specification written in a Dockerfile. 
@@ -280,98 +280,165 @@ Using Compose is basically a three step process:
 
 <br><br>
 
-### Software testing
+## Software testing
 
-#### 9. What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”?
+### 9. What is development/release/user testing? What is TDD? What is partition testing? What are “software inspections”?
 
-   **FIRST**:
+#### Development / Release / User testing:
 
-   1. Development testing: all testing activities that are carried out by the team developing the software. The tester is usually the programmer developing the software. Can be more formal for critical system, with a specific testing group in the developing team (general trends is agile methods, no separation between testers and devleopers).
+1. **Development testing**:  
 
-     Three stages:
+  It includes all testing activities that are carried out by the team developing the software. 
+  The tester is usually the programmer who developed the software, sometimes employing programmer/tester pairs. 
+  The testing process can be more formal for critical system, with a specific testing group in the developing team (general trends is agile methods, where there is no separation between testers and devleopers).
 
-     - Unit testing , where individual functions or methods are tested. Unit testing should focus only on testing the functionality of these methods and functions.
-     - Component testing, where several individual units are integrated to create composite components (modules). In this phase we should test the interface that provides access to these functions.
-     - System testing, where some or all the components are integrated and the system is tested as a whole. Should focus on interactions between components.
+  It comprises three stages:
 
-   2. Release testing: 
+    - **Unit testing**  
+      where individual objects, functions or methods are tested. Unit testing should focus only on testing the functionality of these methods and objects.  
+      Tests should be designed to call routines with different input parameters and to provide coverage of all the implemented features, putting objects into all possible states.  
 
-       - Testing release of system intended for use outside of development team
+      Unit testing should be automated whenever possible. 
+      When objects or methods have dependencies on other functionalities one may decide to use mock objects/methods.  
 
-         Primary goal: convince system supplier that is good enough to use
+      Unit testing should both:
+        + reflect notmal operation of a program, showing how a component works
+        + be based on testing experience of where common problems arise
 
-         Black box tests derived from system specification
+      There are two main strategies that can be effective:
+        + Partition testing (see below)
+        + Guideline-based testing
 
-         It is a form of system testing:
+    - **Component testing**  
+      where several individual units are integrated to create composite components (modules). 
+      In this phase we should test the interface that provides access to these functions.
+      In fact, interface errors in the composite component may not be detectable by testing individual objects of functions.  
+      In this phase one may assume that unit testing has been completed.  
 
-         - Separate not developing team should be responsible
+      We can have different types of interfaces among components, but most common forms of interface errors fall into three classes:
+        + Interface misuse
+        + Interface misunderstanding
+        + Timing errors
 
-         - Objective of release testing is to check that the system meets its requirements and is good enough for external use (validation testing)
+      Testing for interface defects is difficult beacause some interface faults my only be detectable under unusual conditions.
+      Also, interactions between faults in different modules my be detected only when some other module behaves unexpectedly.
 
-         Requirements-based testing
+    - **System testing**  
+      where some or all the components are integrated and the system is tested as a whole. 
+      It should focus on interactions between components.  
+      This kind ok testing overlaps with component testing, but with two main differences:
+        + during system testing reusable components and off-the-shelf systems may be integrated with newly developed components
+        + components developed by different team members may be integrated at this stage.
 
-         ▪ Design test(s) for each requirement
-
-         ▪ Validation testing
-
-         Scenario testing
-
-         ▪ Exploit typical scenarios of use to develop test cases
-
-         ▪ A scenario is a (narrative) realistic story
-
-         Performance testing 
-
-         ▪ Check that system can process its intended workload
-
-         ▪ Operation profiles* employed to test whether performance requirements are being
-         achieve
-
-   3. User testing
-
-      - Users provide input and advice on system testing
-
-          Essential, users real working environment can't be fully replicated but it can impact reliability/performance/usability of system
-
-          Types of user testing:
-
-          - **Alpha testing**
-            - Users work with development team to test early releases of software
-
-          - **Beta testing** 
-            - Release made available to larger group of users, allowing them to experiment and raise problems discovered to the system developers
-
-          - **Acceptance testing**
-
-            - Customers test a system to decide whether or not it is ready to be accepted from the system developers and deployed in the customer environment
+      This is the phase of testing where emergent behaviour of a system should be tested, both wanted and unwanted.  
+      Case-based testing is an effective approach for system testing because of its focus on interactions.
 
 
-          Acceptance criteria should in principle be part of system contract (in practice requirments change during development)
-    
-          Outcome of negotiations can be conditional acceptance, e.g deploy even with problems that needs to be fixed
+2. **Release testing**:  
 
-   **SECOND**:
+  It is the process of testing a particular release of a system intended for use outside of development team.  
+  There are two important distinctions between release testing and system testing:
+    + System development team should not be responsible for release testing
+    + The objective of release testing is to ensure that the system meets its requirements and is good enough for external use (validation testing)
 
-   Test Driven Development is a programming style where software design and implementation are driven by testing. You first write a test for the new functionality that you want, you check that it fails (as it should if the functionality was not intended before), then you write the code that implements the functionality, and rerun the test and verify that it succeed. You repeat this loop until the test passes. This has many benefits including incremental change, simpler solutions and easy to document functionalities (essentially the test should make clear what are the expected inputs and outputs). 
+  The primary goal is to convince system supplier that it is good enough for use.  
+  Release testing is usually a black-box testing process where tests are derived from the system specification.
 
-   **PROS**
+  There are three main approaches for release testing:
 
-   - code coverage. Each code segment should have an associated test( not always true, usually a >90% coverage is the ideal targets)
-   - regression testing. When adding new code you can rerun all the tests and check that it does not break anything (no spaghetti code!)
-   - Simplified debugging, it's immediate to see where is the problem
-   - System documentation, the tests themselves are documentation
+    - **Requirements-based testing**  
+      It represents a systematic approach where sets of tests are derived for each requirement.
+      This kind of testing approach is validation rather than defect testing.
 
-   **THIRD**:
+    - **Scenario testing**  
+      In this approach we exploit typical scenarios of use to develop test cases.
+      A scenario is a (narrative) realistic story that describes one way the system may be used.
+      Typically the same scenario allows to test several system requirements.
 
-   Partition testing is a technique used in unit testing to effecitvely test groups of related inputs that should be treated equally:
+    - **Performance testing**
+      This approach aims at testing that the system can process its intended workload.
+      It is concerned with demonstrating
+        + that the system meets its requirements
+        + discovering problems and defects in the system
 
-- Identify the groups
-- Choose inputs from each groups
-- Rule of thumb: take inputs at boundaries (edge cases) and in the middle(normal cases) of the group.
+      *Operational profiles* can be employed to test whether performance requirements are being achieved.  
+      Performance testing can also include stress testing, which can help with:
+        + testing failure bahaviour of the system
+        + revealing defects that show up only when the system is fully loaded
+
+3. **User testing**:  
+
+  In this phase of testing users and customers provide input and advice on system testing.
+  This form of testing is essential, users real working environment can't be fully replicated but it can impact on reliability/performance/usability of a system.
+
+  Types of user testing:
+
+    - **&alpha; - testing**  
+      Users work closely with the development team to test early releases of the software.  
+      Users can identify problems and issues that are not readily apparent to the development testing team.
+
+    - **&beta; - testing**  
+      The release is made available to a larger group of users, allowing them to experiment and raise problems, that they discovered, to the system developers.  
+      Beta testers may be a selected group of customers who are early adopters of the system.
+
+    - **Acceptance testing**  
+      Customers test a system to decide whether or not it is ready to be accepted from the system developers and deployed in the customer environment.  
+      Acceptance criteria should in principle be part of system contract (in practice requirments change during development).  
+      A possible outcome of negotiations can be conditional acceptance, i.e. deploy the system even with problems that need to be fixed.
+
+#### Test Driven Development (TDD):
+
+Test Driven Development is a programming style where software design and implementation are driven by testing. 
+You develop the code incrementally, along with a set of tests for that increment.
+You don't start working on the next increment until the code that you have developed passes all of its tests.  
+Basic steps for TDD are:
+1. You identify the increment of functionality that is required
+2. You write a test for the new functionality that you want
+3. You check that new tests fail (as they should if the functionality was not intended before)
+4. You write the code that implements the new functionality
+5. You return to testing and verify that they succeed. 
+6. You repeat this loop until the test passes. 
+
+This has many benefits including incremental changes, simpler solutions and easy to document functionalities (essentially the test should make clear what the expected inputs and outputs are). 
+
+We also have othe **benefits**:
+
+   - **Code Coverage**: each code segment should have an associated test( not always true, usually a >90% coverage is the ideal target)
+   - **Regression Testing**: when adding new code you can re-run all the tests and check that it does not break anything (no spaghetti code!)
+   - **Simplified debugging**: it's immediate to see where the problem is
+   - **System documentation**: the tests themselves serve as documentation
+
+#### Partition Testing:
+
+Partition testing is a technique used in unit testing to effecitvely test groups of inputs that have common characteristics and should be processed in the same way. 
+Tests should be chosen from within each of these groups.  
+
+Basic steps for partition testing are:
+
+  - Identify the groups by using program specification or user documentations and from experience
+  - Choose inputs from each groups.  
+    _Rule of thumb_: take inputs at boundaries (edge cases) and in the middle (normal cases) of the group.
+
+#### Software Inspection
+
+Software inspections (and reviews) are part of the **SVV** process along with software testing.  
+They allow to analyze and check system requirements, desing  models, the program source code and even system tests with the purpose of verifying and validating the system.
+They mostly focus on the source code of a system, but any readable representaion of the software can be inspected.
+
+They have three **advantages** over tests:
+
+  - Inspections can discover many errors that during testing may be masked by other errors
+  - Incomplete versions of a system can be inspected without additional costs
+  - Other than searching for defects, software inspections can also considere broader attributes of a program, such as compliance with standards, portability and mantainability.
+
+Despite all these advantages, inspections cannot replace software testing, since they are **not good for**:
+  - discvering defects rising because of unexprected interactions between different parts of a program
+  - timing problems
+  - problems with system performance
 
 <br>
 
-#### 10. What is Locust?
+### 10. What is Locust?
 
 Locust is a open source load testing python tool. 
 Being a load testing tool, it allows to understand services bottlenecks under stress, helping developers to determine how to deploy the application and if its design is future-proof in case the load increases.  
@@ -381,9 +448,9 @@ The number of these calls and their rate can be set via the web interface.
 
 <br><br>
 
-### User stories
+## User stories
 
-#### 11. What is a user story? Which are the six main attributes for a good user story?
+### 11. What is a user story? Which are the six main attributes for a good user story?
 
 **User stories** are short, simple descriptions of a desired feature told from the perspective of the person who wants them, usually a user or customer of the system.  
 They should contain just enough information for the developers to produce a reasonable estimate of the effort to implement them.  
@@ -414,9 +481,9 @@ In fact, these discussions are more important than whatever text it is written i
 
 <br><br>
 
-### Business process modelling
+## Business process modelling
 
-#### 12. What is a parallel/exclusive/inclusive gateway in BPMN?
+### 12. What is a parallel/exclusive/inclusive gateway in BPMN?
 
 | **Gateway** | **Symbol** | **Description** |
 | :---------: | :--------: | --------------- |
@@ -427,7 +494,7 @@ In fact, these discussions are more important than whatever text it is written i
 
 <br>
 
-#### 13. What is a workflow net? What is a sound workflow net? What is a live/bounded Petri net?
+### 13. What is a workflow net? What is a sound workflow net? What is a live/bounded Petri net?
 
 - **Workflow Net**:  
 
@@ -472,7 +539,7 @@ In fact, these discussions are more important than whatever text it is written i
 
 <br>
 
-#### 14. How can we model BPMN parallel/exclusive/inclusive gateways with workflow nets?
+### 14. How can we model BPMN parallel/exclusive/inclusive gateways with workflow nets?
 
 | **Gateway** | **Symbol** | **Workflow Net** |
 | :---------: | :--------: | --------------- |
@@ -483,109 +550,172 @@ In fact, these discussions are more important than whatever text it is written i
 
 <br>
 
-#### 15. What is Camunda? Which are the two “usage patterns” of Camunda?
+### 15. What is Camunda? Which are the two “usage patterns” of Camunda?
 
-**What is Camunda**:
+#### Camunda
 
-Camunda is a framework supporting BPMN  for workflow and process automation.
+We can desing and implement a set of dedicated, autonomous tasks to do business tasks in our company domain.
+Each will have its own business logic and data.  
+However, complexity, in modern software systems, lies in collaboration among services.
+Everything might easily "fail-fast" when microservices do not manage to properly coordinate.
 
-It provides a RESTful API which allows to use any language
+**Camunda** is a framework supporting BPMN for workflow and process automation, following the orchestration pattern.  
+It provides a RESTful API which allows you to use any language for interacting with it.  
+Workflows are defined via BPMN and can be graphically modeled using the Camunda Modeller.
 
-Workflows are defined via BPMN and can be graphically modeled using Camunda Modeller
-
-**Usage Pattern**:
+#### Usage Patterns
 
 1. **endpoint-based integration**:
 
-   After defining a BPMN process , Camunda can directly call  services via built-in connectors. It support REST and SOAP
+  After defining a BPMN process, Camunda can directly call services via built-in connectors.  
+  It supports both RESTful and SOAP services in this way.
 
-   ![image-20211211133112650](img/endpoint.png)
+  ![camunda_up1_01](img/camunda_up1_01.png)
+
+  However, it only allows scaling on process instances, NOT on microservices.
+
+  ![camunda_up1_02](img/camunda_up1_02.png)
 
 2. **queue-based integration**
 
-   Unit  of work (tasks) are provided in a Topic Queue, the queue is polled by RESTful workers that can interact with services ( better scaling).
+  This pattern is also called _External Task_.  
+  Units of work (tasks) are provided in a Topic Queue. 
+  The queue is polled by RESTful workers that can interact with microservices.
 
-   ![image-20211211133248481](img/queuebased.png)
+  ![camunda_up2_01](img/camunda_up2_01.png)
+
+  This pattern allows scaling of:
+    - process instances
+    - workers
+    - microservices
+
+  allowing to reach overall better results.
+
+  ![camunda_up2_02](img/camunda_up2_02.png)
+
+  Step-by-step functioning:
+
+  ![camunda_up2_03](img/camunda_up2_03.png)
+
+   **Workers philosophy**: don't call us, we call you.  
+   You can think of them as "users" involved in the business process.
 
 <br><br>
 
-### Security and microservices
+## Security and microservices
 
-#### 16. Which are the main challenges in securing microservices?     Which are the main “smells” in microservices security?
+### 16. Which are the main challenges in securing microservices?     Which are the main “smells” in microservices security?
 
-    **Challenges**
+#### Challenges
 
+The main challenges in securing microservices are embedded in the architecture itself. 
 
-  The main challenges in securing microservices are embedded in the architecture itself. Since we have many services communicating with remote the number of entry points increases (broader surface attack) and the app is as secure as the weakest link. Other challenges:
+  - **The broader the attack surface, the higher the risk**: 
+    since we have many services communicating with remote entities, the number of entry points increases (broader surface attack) and the app is as secure as the weakest link. 
 
-  - **Distributed security screening**: each microservice has to carry out independent security screenin:
+  - **Distributed security screening**: 
+    each microservice has to carry out independent security screening:
     - May need to connect to a remote security token service
     - repeated, distributed security checks affects **latency and performance**
 
     Work around: trust-the-network (industring moving to 0 trust policies)
 
-  - **Bootstrapping trust among microservices**: Service to service communicatin must take place on protected channels. Suppose you are using certificates:
+  - **Bootstrapping trust among microservices**: 
+    Service to service communicatin must take place on protected channels. Suppose you are using certificates:
     - each microservice must be provisioned with a certificate (and private key) to authenticate itself to another microservice during interactions
     - Recipient microservice must know how to validate the certificate associated with calling microservice
     - Need to bootstrap trust
     - (need also to revoke and rotate certificates)
 
-      Need automation for large scale deployments
+  Need automation for large scale deployments.
+
   - **Tracing requests spanning multiple microservices**
     A log records an event in a service. A set of logs can be aggregated to produce metrics
 
-    Traces help you track a request from the point where it enters the system to the point where it leaves the system
+    Traces help you track a request from the point where it enters the system to the point where it leaves the system.
 
-    **Challenging to correlate requests among microserives**
-  - **Containers complicate credentials/policies handling**
-    Containers are immutable servers that donìt change state after spin up
+    **Challenging to correlate requests among microserives**.
 
-    But we need to mantain a dynamic list of allowed clients and a dynamic set of access control policies
-      e.g get updated policies from some policy admin endpoint (push vcs pull model)
+  - **Containers complicate credentials/policies handling**:
+    Containers are immutable servers that donìt change state after spin up.
+
+    But we need to mantain a dynamic list of allowed clients and a dynamic set of access control policies, e.g get updated policies from some policy admin endpoint (push vs. pull model).
     
-    Each service must also mantain its own credentials, which need to be rotated periodically
-      e.g keep credentials in container filsystem and inject them at boot time
-  - **Distribution makes sharing user context harder**. User context has to be passed explicitly from a microservice to another. How can we build trust so that a receiving microserrvice accepts an incoming user context? Popular solution: use Json Web Token
+    Each service must also mantain its own credentials, which need to be rotated periodically, e.g keep credentials in container filsystem and inject them at boot time
+
+  - **Distribution makes sharing user context harder**: 
+    User context has to be passed explicitly from a microservice to another. 
+    How can we build trust so that a receiving microserrvice accepts an incoming user context? 
+    Popular solution: use Json Web Token.
+
   - **Decentralised security responsabilities**
-    Diffenrent teams can use different technlogoy stacks, and this can mean that they use different security practices and tools (i wish there was a unique solution) for static and dynamic analysis. 
+    Diffenrent teams can use different technlogoy stacks, and this can mean that they use different security practices and tools for static and dynamic analysis. 
 
     Security responsabilites distributed across different teams.
 
-    Usually hybrid approach with centralized security team
+    Usually hybrid approach with centralized security team.
 
-**Smells**
+#### Smells
 
+**Properties**:
 
-| **Property**              | **SMELL**                               | **SOLUTION**                                                       |
-| ------------------------- | --------------------------------------- | -------------------------------------------------------------------|
-| Confidentiality           | Insufficient access control             | Use Oauth 2.0                                                      |
-| Confidentiality           | Publicly accessible microservices       | Add API gateway                                                    |
-| Confidentiality, Integrity| Unneccesary privileges to microservices | Follow the least privilege principe                                |
-| Conf, Int, Auth           | Home made crypto code                   | Use established encription techniques                              | 
-| Conf, Int, Auth           | Non encrypted  data exposure            | Encrypt all sensitive data at rest                                 | 
-| Conf, Int, Auth           | Hardcoded secrets                       | Encrypt secrets at rest                                            |
-| Conf, Int, Auth           | Non secured service-to-service comms    | Use mutual TLS                                                     |
-| Authenticity              | Unauthenticated traffic                 | mutual TLS, openId Connect                                         |
-| Authenticity              | Multiple user authentication            | Api gateway, OpenId Connect, single sign on                        |
-| Authenticity              | Centralised authorization               | Decentralise authorization  |
+  - **Confidentiality**: degree to which a product or system ensures that data are accessible only to those authorized to have access
+  - **Integrity**: degree to which a system, a product, or component prevents unauthorized modification of computer programs or data
+  - **Authenticity**: degree to which the identity of a subject or resource can be proved to be the one claimed
+  
 
-<br>
-
-#### 17. What is static/dynamic vulnerability analysis?
-
-  Static vulnerability analysis is a type of white box analysis that has full access to the source code. It uses static analysis techniques to find security vulenrabilities that are caused by the code itself( e.g hardcoded secrets, old libraries with known vulnerabilities, bad crypto practices). 
-
-  Dynamic vulnerability tesating is  a black box analysis. It tries to break the security control and find vulenrabilities by calling multiple applications API endpoints. Its purpose is to find bad designed authentication and authorization policies by exploiting a running application behaviour. IT casn find vulnerabilities such as no CSRF token, XSS, code injection problem, security misconfigs, unneccessary data exposusre ecc..
+| **Property**                                     | **Smell**                                        | **Solution**                                        |
+| -----------------------------------------------: | ------------------------------------------------ | --------------------------------------------------- |
+| Confidentiality                                  | Insufficient access control                      | Use Oauth 2.0                                       |
+| Confidentiality                                  | Publicly accessible microservices                | Add API gateway                                     |
+| Confidentiality <br> Integrity                   | Unneccesary privileges to microservices          | Follow the least privilege principle                |
+| Confidentiality <br> Integrity <br> Authenticity | Home-made crypto code                            | Use established encription techniques               | 
+| Confidentiality <br> Integrity <br> Authenticity | Non encrypted data exposure                      | Encrypt all sensitive data at rest                  | 
+| Confidentiality <br> Integrity <br> Authenticity | Hardcoded secrets                                | Encrypt secrets at rest                             |
+| Confidentiality <br> Integrity <br> Authenticity | Non secured service-to-service communications    | Use mutual TLS                                      |
+| Authenticity                                     | Unauthenticated traffic                          | Mutual TLS <br> OpenId Connect                      |
+| Authenticity                                     | Multiple user authentication                     | Api Gateway <br> OpenId Connect <br> Single sign-on |
+| Authenticity                                     | Centralised authorization                        | Decentralise authorization                          |
 
 <br>
 
-#### 18. Which are the most frequent API security vulnerabilities?
+### 17. What is static/dynamic vulnerability analysis?
 
-[See pdf](owasp-api-security-top-10-cheat-sheet-a4.pdf)
+**Static vulnerability analysis** is a type of white box analysis that has full access to the source code. 
+It uses static analysis techniques to find known security vulenrabilities that are caused by the code itself (e.g hardcoded secrets, old libraries with known vulnerabilities, bad crypto practices). 
+
+![static_analysis](img/static_analysis.png)
+
+**Dynamic vulnerability testing** is a black box analysis. 
+It tries to break the security control and find vulenrabilities by calling multiple applications API endpoints. 
+Its purpose is to find bad designed authentication and authorization policies by exploiting a running application behaviour. 
+It can find vulnerabilities such as no CSRF token, XSS, code injection problem, security misconfigurations, unneccessary data exposusre ecc..  
+
+It can involve **penetration testing**, a process of testing a system, network, or web application for vulnerabilities that could be exploited.  
+It can be performed as:
+  - **passive scan**: a harmless can that looks only for responses anche checks them against known vulnerabilities
+  - **active scan**: a practice that tries to deliberately penetrate the system by using known techniques to find vulnerabilities.
+
+<br>
+
+### 18. Which are the most frequent API security vulnerabilities?
+
+| **API Security Vulnerability**      | **Solution**                                                                                                                                   |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Broken object-level authorization   | Use random ID for your objects                                                                                                                 |
+| Broken authentication               | Proper OAuth2.0 configuration                                                                                                                  |
+| Excessive data exposure             | Not expose system technologies <br> Error shielding                                                                                            |
+| Lack of resources and rate limiting | Proper resource and rate limiting                                                                                                              |
+| Broken function-level authorization | Use OAuth2.0 scopes                                                                                                                            |
+| Mass assignment                     | Don't automatically bind incoming data and internal objects                                                                                    |
+| Security misconfiguration           | Automated process to locate configuration flaws                                                                                                |
+| Injection                           | Validate, filter, sanitize all incoming data                                                                                                   |
+| Improper assets management          | Inventory all API hosts                                                                                                                        |
+| Insufficient logging and monitoring | Employ a system to analyze process behavioural data <br> and user behaviour through logging to find abnormalities <br> and suspicious patterns |
     
 <br>
 
-#### 19. What are authentication and authorization? What are SAML, OIDS and OAuth2.0?
+### 19. What are authentication and authorization? What are SAML, OIDS and OAuth2.0?
 
   **Authentication and authorization**
 
@@ -666,9 +796,9 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
 <br><br>
 
-### Splitting the monolith
+## Splitting the monolith
 
-#### 20. When and where to start splitting a monolith codebase? How to split databases?
+### 20. When and where to start splitting a monolith codebase? How to split databases?
 
 **When and where**
 
@@ -722,35 +852,37 @@ find the seams in the db. Understand which code read and writes db and detect co
 
 <br>
 
-#### 21. What is the CAP theorem? What is the SAGA pattern?
+### 21. What is the CAP theorem? What is the SAGA pattern?
 
-- **CAP Theorem**: In presence of a network partition, you cannot have both availability and consistency.
-    + **Consistency**: any read operation beginning after a write operation must return that valure or the result of a later write operation
-    + **Availability**: every request received from a non-failing node must result in a response
-    + **Network partition**: network can lose arbitrarily many messages sent from one group to another
+#### CAP Theorem
+**Theorem**: In presence of a network partition, you cannot have both availability and consistency.
 
-  ![cap_theorem_proof](img/cap_theorem_proof.png)
+  + **Consistency**: any read operation beginning after a write operation must return that valure or the result of a later write operation
+  + **Availability**: every request received from a non-failing node must result in a response
+  + **Network partition**: network can lose arbitrarily many messages sent from one group to another
 
-- **SAGA Pattern**:
+![cap_theorem_proof](img/cap_theorem_proof.png)
 
-  A pattern to implement distributed transactions in a lightweight manner.  
-  It consists in implementing each business transaction spanning multiple services as a saga.  
-  A **saga** is a sequence of local transactions. 
-  Each local transaction updates a database and triggers next local trnasactions in the saga.
-  If one local transaction fails then the saga executes compensating transactions (rollback).
+#### SAGA Pattern
 
-  Two ways to coordinate sagas:
-    + **Coreography**: each local transaction publishes an event that triggers next transactions in the saga
-    + **Orchestration**: an orchestrator tells participants which local transactions to execute
+A pattern to implement distributed transactions in a lightweight manner.  
+It consists in implementing each business transaction spanning multiple services as a saga.  
+A **saga** is a sequence of local transactions. 
+Each local transaction updates a database and triggers next local trnasactions in the saga.
+If one local transaction fails then the saga executes compensating transactions (rollback).
 
-  Compensating transactions:
+Two ways to coordinate sagas:
+  + **Coreography**: each local transaction publishes an event that triggers next transactions in the saga
+  + **Orchestration**: an orchestrator tells participants which local transactions to execute
 
-    + **Backward model**: undo changes made by previously executed local transactions
-    + **Forward model**: retry later (possibly with timeouts and circuit breakers)
+Compensating transactions:
+
+  + **Backward model**: undo changes made by previously executed local transactions
+  + **Forward model**: retry later (possibly with timeouts and circuit breakers)
 
 <br>
 
-#### 22. What is a (event) data pump?
+### 22. What is a (event) data pump?
 
 Data pumps are needed to keep updated the reporting database, which is usually kept as a separate copy of the main database. 
 They offer a good alternative to retireving data for the reporting database through HTTP calls, reducing the overhead of both HTTP itself and of having APIs that may exist only for reporting purposes.  
@@ -775,9 +907,9 @@ When the database is updated, data is pushed to the reporting systems (possibly 
 
 <br><br>
 
-### Cloud-IoT continuum
+## Cloud-IoT continuum
 
-#### 23. What is Fog computing? What are (declarative) application placement and continuous reasoning over the Cloud-IoT continuum?
+### 23. What is Fog computing? What are (declarative) application placement and continuous reasoning over the Cloud-IoT continuum?
 
 ![image-20211214092725795](img/fog.png)
 
@@ -814,7 +946,7 @@ When the database is updated, data is pushed to the reporting systems (possibly 
       - Possibly reduce the number of management operations (stop, undeploy, deploy, start)
       - How?  Re-place only services affected by infrastructure and CI/CD changes
 
-#### 24. How can we assess the security level of an application deployment? How can we model trust?
+### 24. How can we assess the security level of an application deployment? How can we model trust?
 
     Enforcing security in a fog context can be quite challenging.  A fog architcture increase the attack surface by exposing a lot more of possible entry points and shares a lot of the threats with cloud computing (enforciing isolation, man in the middle ecc.)
 
@@ -872,4 +1004,4 @@ When the database is updated, data is pushed to the reporting systems (possibly 
 
     Limit transitivity to a radius. As an example, if we pick a radius of 3 a operator transitivitely trsuts only the next three operator along a path in the trust network.
 
-#### 25. What is secure FaaS orchestration?
+### 25. What is secure FaaS orchestration?
