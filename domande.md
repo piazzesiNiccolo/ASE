@@ -6,6 +6,25 @@
 
    **In REST a resource is created/updated/accessed ecc. using HTTP methods. Clients invoke methods such as GET, POST, PUT, DELETE and request and responses  are used to trasnfer representaion of resources. Rest is resources centric and services are seen as reources identified by their URI. **
 
+REST principles:
+
+- Resource identification through URIs
+  - Service exposes a set of resources which identify the targets of the interaction with its clients
+  - Resources identified by URIs, which define global addressing space for resource & service discovery
+- Uniform interface
+  - Resources mainpulated using a fixed set of operations:
+    - PUT and POST to create and update state of resource
+    - DELETE to delete a resource
+    - GET to retrieve current state of resource
+- Self-descriptive messages
+  - Requests contain enough context information to process the message
+  - Resources decoupled from their representation so that their content can be accessed in a variety of formats (HTML, XML, JSON, Plain text, PDF, JPEG)
+  - Metadata about the resourcescan be used to control caching and negotiat representation of state
+- Stateful interactions through hyperlinks
+  - Every interaction with a resource is stateless
+  - Server contains no client state, any session state hold on client
+  - Stateful interactions rely on the concept of explicit state transfer 
+
   **PROS:**
 
    - Simplicity
@@ -132,7 +151,7 @@ The main advantage of using a standard definition is that the thid party users c
 
 8. What is the effect of docker build/run/commit? What is Docker Compose?
 
-   Docker build build a new image based on a specification written in a Dockerfile. Docker run execute a command in a new container created on the basis of a specified image, using the default comand in the image (if exists) when a command is not provided. Commit creates a new image based on a container change to the image that it was built on.
+   Docker build builds	2 a new image based on a specification written in a Dockerfile. Docker run execute a command in a new container created on the basis of a specified image, using the default comand in the image (if exists) when a command is not provided. Commit creates a new image based on a container change to the image that it was built on.
 
 **Software testing**
 
@@ -200,7 +219,7 @@ The main advantage of using a standard definition is that the thid party users c
             - Customers test a system to decide whether or not it is ready to be accepted from the system developers and deployed in the customer environment
 
 
-          Acceptance criteria should in principle be part of system contract (in practice requirments change during development)
+    Acceptance criteria should in principle be part of system contract (in practice requirments change during development)
     
           Outcome of negotiations can be conditional acceptance, e.g deploy even with problems that needs to be fixed
 
@@ -297,7 +316,7 @@ Six main attributes (INVEST):
 
     > A Petri net (PN, M) is **live** if and only if for every reachable state M' and every transition t, there is a state M'' reachable from M' where t is enabled.
     >
-    > A Petri net(PN, M) is **bounded** if and only if for each place p there is a $n \in \N$ such that  for each reachable state M'  the number of tokens in p in M' is less than  n
+    > A Petri net(PN, M) is **bounded** if and only if for each place p there is a n in N such that  for each reachable state M'  the number of tokens in p in M' is less than  n
     >
     > Theorem: a workflow net $N$ is sound if and only if  (N',{i}) is live and bounded, where N' is N extended with a transition from the sink place _o_  to the source place _i_
 
@@ -603,7 +622,7 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
 
     Declarative placement:
 
-    App deployment becomes a very complex problem (NP Hard) in a Fog context. You have a set of App requirements (Hardware, Software, QoS) and a fog infrastructure (Heterogenenous, Large, DYnamic).
+    App deployment becomes a very complex problem (NP Hard) in a Fog context. You have a set of App requirements (Hardware, Software, QoS) and a fog infrastructure (Heterogenenous, Large, Dynamic).
 
     How to decide the "best" place to deploy an application component?
 
@@ -693,3 +712,117 @@ Workflows are defined via BPMN and can be graphically modeled using Camunda Mode
     Limit transitivity to a radius. As an example, if we pick a radius of 3 a operator transitivitely trsuts only the next three operator along a path in the trust network.
 
 25. What is secure FaaS orchestration?
+
+
+
+First of all we define FaaS. FaaS stands for Functions as a Service and it's the more recent cloud computing model. In this model, a platform is provided to define stateless, event-triggered functions. A user provides the code of the function, the trigger and how to handle the results. There is a total abstraction from the target deployment stack, and the underlying infrastructure is not specified by the end user. This allows a simplified deployment for applications that can use this model with very low execution costs. Particularly suited for IoT data computation 
+
+FAAS
+
+PROS:
+
+- Costs
+- Scalability
+- Productivity
+- Avg latency
+
+CONS:
+
+- Cold starts
+- No persistent state
+- Non concurrency controls
+
+FaaS meets Cloud-IoT Continuum
+
+Key Idea: deplo functions on nodes near the edges 
+
+- Improve QoS of FaaS
+- Event Driven Programming
+- Better resource management
+
+This rises non trivial security problems
+
+Security issues:
+
+- Reduced Trust Computing Base
+- Devices can be easily hacked, stolen, or broken
+- Isolate users to calculate accounting and billing
+- Privacy
+
+FaaS + C-I cont. + Security
+
+Applications for:
+
+- Environmental monitoring
+- Diseases tracking
+- Home automation
+- Vocal assistants
+- Smart agriculture
+
+Three perspectives:
+
+- Defining FaaS orchestrations
+- Executing FaaS  orchestrations in the C-I cont.
+- Securing FaaS orchestrations
+
+**Define FaaS orchestration**
+
+Languages, models, and methodlogies to define FaaS orchestrations
+
+Findings:
+
+- High support for basic programming constructs (sequential, conditonal branches, loops...)
+- Direct triggers vs publish/subscribe invocation
+- Recursive functions supported (but not particularly liked)
+- Low support for type checking functions
+
+**Executing FaaS orchestrations  in the C-I cont.**
+
+Platforms, techniques and methodologies to execute FaaS orchestrations in the C-I Cont.
+
+Findings:
+
+- High support for latency and resource management
+- Cost-awareness has good consideration
+- Data- and bandiwth-awareness considered by few works
+
+**Securing FaaS orchestrations**
+
+Techniques and methodologies to secure FaaS orchestrations both statically and at runtime
+
+Findings:
+
+- Data confidentiality and function integrity are the main assets protected
+- The main threat is given by external attacks, but also cloud providers and developer mistakes are highly considered 
+- The main protection techniques are hardware isolation and information flow security
+
+**Research challenges**
+
+P1 ^ P2 (Definfing FaaS orchestrations ^ Executing FaaS orchestrations in the C-I Cont )
+
+- Orchestration aware execution:
+
+  Exploit orchestration to place and execute functions (instead of considering single functions)
+
+- Definition and Execution of context-aware and Qos-aware orchestration
+
+  Add context  and QoS requirements to functions and orchestrations to support placement and execution 
+
+P1^P3 (Defining FaaS orchestrations ^ Secure Faas Orchestrations)
+
+- Definition of security requirements:
+
+  Add to function orchestrations security requirements on functions (e.g specific nodes execution)., orchestrations(e.g policies defined on set of functions), and data (e.g defining and exploiting security levels).
+
+- Static analysis of FaaS orchestrations:
+
+  Analyse statically defined FaaS orchestrations using the afromentioned requirements to support placement and execution
+
+P2^P3 (Executing FaaS orchestrations  in the C-I cont. ^ Securing FaaS orchestrations)
+
+- Secure executions in the C-I Cont.
+
+Security is measured and enforced with a similar approach to secofog (declarative approach based on a trust network).
+
+​	![image-20211217172324040](img/chainGath.png)
+
