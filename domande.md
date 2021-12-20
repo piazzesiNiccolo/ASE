@@ -38,7 +38,7 @@
 | 19 | What are authentication and authorization? What are SAML, OIDS and OAuth2.0? |
 | | &nbsp; |
 | | **[Splitting the monolith](#splitting-the-monolith)** |
-| 20 | When and where to start splitting a monolith codebase? How to split databases? |
+| 20 | [When and where to start splitting a monolith codebase? How to split databases?](#20-when-and-where-to-start-splitting-a-monolith-codebase-how-to-split-databases) |
 | 21 | [What is the CAP theorem? What is the SAGA pattern?](#21-what-is-the-cap-theorem-what-is-the-saga-pattern) |
 | 22 | [What is a (event) data pump?](#22-what-is-a-event-data-pump) |
 | | &nbsp; |
@@ -800,55 +800,69 @@ It can be performed as:
 
 ### 20. When and where to start splitting a monolith codebase? How to split databases?
 
-**When and where**
+#### When and where
 
-We must start to split a monolith only *when* it becomes a problem. How to define when it becomes a problem is context dependant but there are some usal indicators:
+- **When**  
+  We must start considering to split a monolith only when it becomes a problem.  
+  How to define when it becomes a problem is context dependant but there are some useful indicators:
 
-    - Codebase has fast pase of change and functionalities continously added
-    - A lot of code kept together is unrealted
-    - loose coupling impact performance and manteinance, monolith alwasy deployed all otgether
+    - Codebase has fast pace of change and functionalities are continously added
+    - The codebase becomes too big to be managed as is (fear of touching the code)
+    - A lot of code kept together is unrelated
+    - Loose coupling impact performance and maintenance, monolith has always to be deployed all together
 
-Where:
+- **Where**:  
+  Find the seams: portions of code that can be treated in isolation and worked on without impacting the rest of the codease.
+  We also want to identify the seams so that they can become service boundaries.  
+  Bounded contexts make excelent seams, because by definition they represent cohesive and loosely coupled boundaries in an organization.
 
-Find the seams: portion of code that can be treated in isolation and worked on without impacting the rest of the codease
+  At this point, exploiting the notion of software modules we can create packages representing the bounded conexts we found and move existing code (refactor it!) into them.
+  This process can be (and _should_ be) done <ins>incrementally</ins>.  
+  While doing this, some code could be _left over_, not fitting well anywhere.
+  This remaining code might identify bounded contexts previously missed.
 
-Bounded context, exploit notion of software modules &rarr; create packages representing bounded conext and move existing code (refactor it !) in them
+  Which context to move first depends on the application and the motivations for splitting it.  
+  Typical drivers can be:
+    - Pace of Change
+    - Team Structure
+    - Security
+    - Technology
+    - Tangled Dependencies
 
-Which context to move first depends on the application and the motivations for splittin
+#### How to split the database
 
-typical drviers:
+To split the database we need to find the seams inside of it. 
+First of all, we need to understand which parts of the code read to and write from the database.  
+Having the database mapping code colocated inside the code for a given context can help us undestand what parts of the code are mapped to what parts of the database.  
+But this doesn't give the whole story: there might be constraints enforced by the database itself, e.g. foreign key relationships from a table to another.
 
-    - pace of change
-    - team structure
-    - security
-    - technology
-    - tangled dependencies
+Concrete examples:
 
-**How to split db**
+  - **Breaking foreign key relationship**  
+    Services could use infos from other services via database foreign keys.  
+    A possible solution can be to expose data via API calls in the checked service package.  
+    This can cause more overhead and the foreign key relationship is lost. 
+    This means that constraints must be managed at the service level. 
+    We need to implement consinstency checks.
 
-find the seams in the db. Understand which code read and writes db and detect constraints(e.g foreign key relationship used by different parts of code)
+  - **Shared static data**  
+    To address this case there are three possible solutions:
+    + Duplicate tables, which could cause possible consistency problems
+    + Treat data as code, i.e. config files.  
+      It's easier to update config files than database tables even with consistency issues.
+    + Expose static data as a separate service.  
+      This solution may be an overkill.
 
-  - Breaking foreign key relationship
+  - **Shared mutable data**  
+    In most cases the best solution is to move shared data in a new service that can be invoked through API calls, making concrete a concept that was previously abstract and only present in the databse.
 
-  Services uses info of other service via db foreign key 
+  - **Shared tables**  
+    In this case the best solution is to split the table in two, moving used contexts to each service needing it and storing two concepts separately.
 
-  Solution: expose data via API in the checked service package
-
-  - More overhead but foreign key lost, constraints managed at the service level, need to implement consinstency checks
-
-  - Shared static data
-
-  - Duplicate tables (possible consistency problem)
-  - Treat data as code (config files). Easier to update config files than db tables even with consistency issues
-  - Expose a separate service (possibly overkill)
-
-- Shared mutable data
-
-  - Solution: move shared data in a new service that can be invoked through API
-
-- Shared tables
-
-  Solution: split table in two, move used contexts to each service needing it. Store two concepts separatelt
+The last step while splitting the database is staging the actual break.  
+It is best to split database schemas right after code refactoring into packages but before splitting the monolithic service into microservices.
+This because from one to more separate schemas we potentially increase the number of database calls to perform a single action and we also end up breaking transactional integrity.  
+By splitting the schemas while keeping the application together we give ourselves the possibility to revert or tweak changes as needed.
 
 <br>
 
