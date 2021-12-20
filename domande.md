@@ -35,7 +35,7 @@
 | 16 | [Which are the main challenges in securing microservices? Which are the main “smells” in microservices security?](#16-which-are-the-main-challenges-in-securing-microservices-----which-are-the-main-smells-in-microservices-security) |
 | 17 | [What is static/dynamic vulnerability analysis?](#17-what-is-staticdynamic-vulnerability-analysis) |
 | 18 | [Which are the most frequent API security vulnerabilities?](#18-which-are-the-most-frequent-api-security-vulnerabilities) |
-| 19 | What are authentication and authorization? What are SAML, OIDS and OAuth2.0? |
+| 19 | [What are authentication and authorization? What are SAML, OIDC and OAuth2.0?](#19-what-are-authentication-and-authorization-what-are-saml-oidc-and-oauth20) |
 | | &nbsp; |
 | | **[Splitting the monolith](#splitting-the-monolith)** |
 | 20 | [When and where to start splitting a monolith codebase? How to split databases?](#20-when-and-where-to-start-splitting-a-monolith-codebase-how-to-split-databases) |
@@ -715,84 +715,105 @@ It can be performed as:
     
 <br>
 
-### 19. What are authentication and authorization? What are SAML, OIDS and OAuth2.0?
+### 19. What are authentication and authorization? What are SAML, OIDC and OAuth2.0?
 
-  **Authentication and authorization**
+#### Authentication
 
-  1. Authentication
-     
-      Authentication is the **act of confirming the truth** of an attribute of a single piece of data or entity (user of an application, for instance).
+Authentication is the **act of confirming the truth** of an attribute of a single piece of data or entity (user of an application, for instance).
 
-      In the digital worlds we tend to simplify the confirmation by using **username and password** (the assumption is that password is known only by the indended user, so specifying the right password you're demonstrating you actually are who you pretend to be).
-  2. Authorization
+In the digital world we tend to simplify the confirmation by using **username and password** (the assumption is that password is known only by the intended user, so specifying the right password you're demonstrating you actually are who you pretend to be).
 
-      Authorization is the function of **specifying access rights** to resources related to information security and computer security in general and to access control in particular
-        - To authorize is to define an access policy
+#### Authorization
+
+Authorization is the function of **specifying access rights** to resources related to information security and computer security in general and to access control in particular.  
+Formally, "to authorize" is to define an access policy.
       
-      In the digital world, defining the access rules user by user can be impractical
-
-      Authorization is often implemented with the so called **Role-Based Access Control**( RBAC)
-        - users are pooled in groups based on their organizational role (e.g payroll manager, project group A, ...)
-        - access rights are then asssociated to roles
+In the digital world, defining the access rules user by user can be impractical.  
+Authorization is often implemented with the so called **Role-Based Access Control** (RBAC).
+  - users are pooled in groups based on their organizational role (e.g payroll manager, project group A, ...)
+  - access rights are then asssociated to roles
       
-      When a user access an application:
-        - authenticates himself / herself
-        - activate one or more roles (depending on the groups of belonging)
-        - access services by leveraging RBAC authorization
+When a user access an application:
+  - authenticates himself / herself
+  - activate one or more roles (depending on the groups of belonging)
+  - access services by leveraging RBAC authorization
 
+#### SAML
 
-**What are SAML, OIDS and OAuth2.0?**
+SAML (Simple Assertion Markup Language) is a **standard** that **facilitates the exchange of security information**. 
+It is an XML-based framework that enables different organizations (with different security domains) to securely exchange authentication and authorization information.
 
-  1. SAML (Simple Assertion Markup Language) is a **standard** that **facilitates the exchange of security information**. It is an XML-based framework that enables different organizations ( with different security domains) to securely exchange authentication and authorization information.
+To create a SAML infrastructure:
+  - an Identity Provider (IdP) must be **installed on top of each organization directory** to permit user authentication in the federation
+  - a Service Provider (SP) must be **installed on top of each application** to consume authentication and authorization information obtained from the federation.
 
-      To create a SAML infrastructure:
-        - an Identity Provider (IdP) must be **installed on top of each organization directory** to permit user authentication in the federation
-        - a Service Provider (SP) must be **installed on top of each application** to consume authentication and authorization information obtained from the federation.
+#### OIDC
 
-  2. OpenId Connect (OIDC) is a **standard** that **facilitates the exchange of security information**. OIDC is a framework that uses REST APIs and JSON format. OIDC enables different organizations (with different security domains) to securely exchange authentication and authorization information.
+OpenId Connect (OIDC) is a **standard** that **facilitates the exchange of security information**. 
+OIDC is a framework that uses REST APIs and JSON format. 
+OIDC enables different organizations (with different security domains) to securely exchange authentication and authorization information.
 
-      To create an OIDC infrastructure:
-        - an openID provider (OP) must be **installed on top of each organization directory** to permit user authentication to the federation (similarly to IdP in SAML)
-        - a Relying Party (RP) must be **installed on top of each application** to consume authentication an authorization information obtained from the federation (similarly to SP in SAML)
-  
-  3. OAuth 2.0 is an IETF standard for authorization. OAuth2 defines a mean to represent the authorization granted to the third party, the access token, and a set of flows and mechanisms to:
+To create an OIDC infrastructure:
+  - an openID Provider (OP) must be **installed on top of each organization directory** to permit user authentication to the federation (similarly to IdP in SAML)
+  - a Relying Party (RP) must be **installed on top of each application** to consume authentication an authorization information obtained from the federation (similarly to SP in SAML)
+
+Both SAML and OIDC can be used to federate an application.
+
+#### OAuth2.0
+
+OAuth 2.0 is an IETF standard for authorization. 
+OAuth2 defines a mean to represent the authorization granted to the third party, the _access token_, and a set of flows and mechanisms to:
 
   - obtain the authorization, that is the access token
   - convey the authorization to a third-party application
   - use the authorization on a protected resource
   
-    All on top of the HTTP protocol
+All on top of the HTTP protocol
   
-    **OAuth2.0 Actors**:
-    - Resource Owner (RO): the granting access entity, usually the user and his User Agent
-    - Resource Server (RS): the server hosting the resource to be accessed (e.g. an API)
-    - Client: the application to which the grant is entitled (a web app, a desktop app, a mobile app, a javascript-on-top-of-user-agent app ...)
-    - Authorization Server (AS): register clients, authenticates users, and issues access tokens.
-    
-    
+**OAuth2.0 Actors**:
+  - **Resource Owner** (RO): the granting access entity, usually the user and his User Agent
+  - **Resource Server** (RS): the server hosting the resource to be accessed (e.g. an API)
+  - **Client**: the application to which the grant is entitled (a web app, a desktop app, a mobile app, a javascript-on-top-of-user-agent app, ...)
+  - **Authorization Server** (AS): registers clients, authenticates users, and issues access tokens.
 
-  **Access token**: a sring representing an authorization issued to the lient (for which is usually opaque). <ins>OAuth 2.0 does not mandate the format nor the content of the access token</ins>
+**Access token**  
+A sring representing an authorization issued to the Client (for which is usually opaque). 
+<ins>OAuth 2.0 does not mandate the format nor the content of the access token</ins>
+      
+**Refresh token**  
+Credentials used to obtain access tokens when the current access token becomes invalid or expires.
+      
+**Scopes**  
+Set of rights delegated to the client on the Resource Server - expressed as a list of space-delimited, case sensitive strings.
     
-  **Refresh token**: credentials used to obtain access tokens when the current access token becomes invalid or expires.
+**Protocol Endpoints**:
+  - Authorization endpoint (Authorization Server)
+  - Token endpoint (Authorization Server)
+  - Redirection Endpoint (Client)\[<ins> SHOULD require the use of TLS by RFC 6749 </ins>\]
     
-  **Scopes**: set of rights delegated to the client on the Resource Server - expressed as a list of space-delimited, case sensitive strings.
-    
-    **Protocol Endpoints**:
-      - Authorization endpoint (Authorization Server)
-      - Token endpoint (Authorization Server)
-      - Redirection Endpoint (Client)\[<ins> SHOULD require the use of TLS by RFC 6749 </ins>\]
-    
-    **OAuth 2.0 Flows**:
-      - Authorization Code Grant
-        It is the main flow to obtain an access token, and mainly targeted to web applications.
-        - client authentication
-        - employ an intermediate authorization phrase represented by an authorization code
-        - The access token is exchanged without the involvment of the Resource Owner User Agent
-      - Implicit Grant. A simplified authorization code flow optimized for clients implemented in a browser.
-        - No client authentication
-        - No intermediary code to obtain the access token
-      - Resource Owner Password Credentials Grant. It is a flow for highly trusted clients:
-        - the resource owner credentials are used directly by the client to obtain an authorization
+**OAuth 2.0 Flows**:
+  - <ins>Authorization Code Grant</ins>  
+    It is the main flow to obtain an access token, and mainly targeted to web applications.
+    - client authentication
+    - employ an intermediate authorization phrase represented by an authorization code
+    - The access token is exchanged without the involvment of the Resource Owner User Agent
+
+    ![authorization_code_grant](img/authorization_code_grant.png)
+
+  - <ins>Implicit Grant</ins>  
+    A simplified authorization code flow optimized for clients implemented in a browser.
+    - No client authentication
+    - No intermediary code to obtain the access token
+  
+    ![implicit_grant](img/implicit_grant.png)
+
+  - <ins>Resource Owner Password Credentials Grant</ins>  
+    It is a flow for highly trusted clients:
+    - the resource owner credentials are used directly by the client to obtain an authorization
+
+  - <ins>Client Credentials Grant</ins>  
+    It is a flow for third party Clients with very limited access to resources
+    - it is based on client credentials only
 
 <br><br>
 
