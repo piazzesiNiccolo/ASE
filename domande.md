@@ -1195,14 +1195,14 @@ QoS-, security-, trust-aware placement of FaaS orchestration can be achieved thr
 - C-I infrastructure + security capabilities
 - Security policies + trust network
 
-**FaaS2Fog** is a methodology and &alpha;ProbLog prototype to place orchestrated FaaS applications onto C-I Infrastructure.  
+**FaaS2Fog** is a methodology and &alpha;ProbLog prototype to place orchestrated FaaS applications onto C-I Infrastructure, securely.  
 It features:
 
 - Declarative model
 - Hw, Sw, Latency constraints
 - Infrastructure and IF security and trust
 
-Security is measured and enforced with a similar approach to secofog (declarative approach based on a trust network).
+Security is measured and enforced with a similar approach to SecFog (declarative approach based on a trust network).
 
 Given a chain
 
