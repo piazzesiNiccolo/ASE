@@ -1187,8 +1187,45 @@ Findings on techniques and methodologies to secure FaaS orchestrations both stat
   - Secure executions in the C-I Continuum:  
     Scpecific approaches to security of FaaS, e.g. information flow control security of functions and orchestrations in the C-I Continuum.
 
+#### Placing FaaS in the Fog Securely
+
+QoS-, security-, trust-aware placement of FaaS orchestration can be achieved through:
+
+- FaaS orchestration + data security levels
+- C-I infrastructure + security capabilities
+- Security policies + trust network
+
+**FaaS2Fog** is a methodology and &alpha;ProbLog prototype to place orchestrated FaaS applications onto C-I Infrastructure.  
+It features:
+
+- Declarative model
+- Hw, Sw, Latency constraints
+- Infrastructure and IF security and trust
+
 Security is measured and enforced with a similar approach to secofog (declarative approach based on a trust network).
 
-![image-20211217172324040](img/chainGath.png)
+Given a chain
 
+![faas_chain](img/faas_chain.png)
+
+and an infrastructure
+
+![faas_infrastructure](img/faas_infrastructure.png)
+
+deploying the chain onto the infrastructure requires satisfying all functions' software, hardware and latency requirements and determining a suitable binding from functions to the service instances they need.  
+Furthermore, function labels and node labels should be compatible, i.e. a node can host a function only if it features an equal or higher security label.
+
+#### How it works
+
+Given a function chain, FaaS2Fog can output a placement in two main steps:
+
+- **Security type propagation through the chain**:  
+  by scanning the list of chained functions, the process instantiates the security type of all parameters and then assigns to each function the highest security type among the security labels of its parameters.
+
+  ![chain_propagation](img/chain_propagation.png)
+
+- **Mapping of typed functions onto the C-I infrastructure**:  
+  the process scans the list of typed functions and determines an eligible placement for each of them.
+  
+  ![chain_placement](img/chain_placement.png)
 
