@@ -44,7 +44,7 @@
 | | &nbsp; |
 | | **[Cloud-IoT Continuum](#cloud-iot-continuum)** |
 | 23 | [What is Fog computing? What are (declarative) application placement and continuous reasoning over the Cloud-IoT continuum?](#23-what-is-fog-computing-what-are-declarative-application-placement-and-continuous-reasoning-over-the-cloud-iot-continuum) |
-| 24 | How can we assess the security level of an application deployment? How can we model trust? |
+| 24 | [How can we assess the security level of an application deployment? How can we model trust?](#24-how-can-we-assess-the-security-level-of-an-application-deployment-how-can-we-model-trust) |
 | 25 | [What is secure FaaS orchestration?](#25-what-is-secure-faas-orchestration) |
 
 <br>
