@@ -472,7 +472,7 @@ In fact, these discussions are more important than whatever text it is written i
 
 3. **Valuable to users**:  user stories must provide descriptions of features that are valuable to end users, and as such should not be focused on technological and programming aspects.
 
-4. **Estimatable**: It is essential that the size of a story can be estimated by developers. The better the estimate of story points, the clearer will be their priority and the scheduling of their implementation.
+4. **Estimable**: It is essential that the size of a story can be estimated by developers. The better the estimate of story points, the clearer will be their priority and the scheduling of their implementation.
 
 5. **Small**: A good story captures the essence, not the details. Over time the story may acquire notes, details, test ideas and so on, but we don't need these to proiritize or schedule the story.
 
@@ -703,7 +703,7 @@ It can be performed as:
 | **API Security Vulnerability**      | **Solution**                                                                                                                                   |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | Broken object-level authorization   | Use random ID for your objects                                                                                                                 |
-| Broken authentication               | Proper OAuth2.0 configuration                                                                                                                  |
+| Broken authentication               | Use standard authentication, token generation, password storage, multi-factor authentication                                                   |
 | Excessive data exposure             | Not expose system technologies <br> Error shielding                                                                                            |
 | Lack of resources and rate limiting | Proper resource and rate limiting                                                                                                              |
 | Broken function-level authorization | Use OAuth2.0 scopes                                                                                                                            |
@@ -1073,7 +1073,7 @@ where S is a set of elements and &oplus; and &otimes; are two binary operators d
 - &oplus; is commutative and associative, with 0 as its neutral element
 - &otimes; is associative, distributes over &oplus; and 1 and 0 are its neutral and absorbing elements, respectively
 
-Assuming that &Omega;(q) is a set of possible worlds W taht entail a valid proof for a certain query q:
+Assuming that &Omega;(q) is a set of possible worlds W that entail a valid proof for a certain query q:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&Omega;(q) = {W | W &models; q}
 
@@ -1195,7 +1195,7 @@ QoS-, security-, trust-aware placement of FaaS orchestration can be achieved thr
 - C-I infrastructure + security capabilities
 - Security policies + trust network
 
-**FaaS2Fog** is a methodology and &alpha;ProbLog prototype to place orchestrated FaaS applications onto C-I Infrastructure, securely.  
+**FaaS2Fog** is a methodology and &alpha;ProbLog prototype to place orchestrated FaaS applications onto C-I Infrastructure, securely. 
 It features:
 
 - Declarative model
